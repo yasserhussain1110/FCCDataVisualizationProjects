@@ -1,5 +1,8 @@
-require('./style.scss');
+import editor from './components/editor';
 
-//var component = require('./component');
 
-//document.body.appendChild(component());
+document.body.appendChild(
+  <div class="container">
+    editor()
+  </div>
+);
