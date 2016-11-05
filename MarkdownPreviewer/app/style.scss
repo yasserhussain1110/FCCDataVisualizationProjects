@@ -1,7 +1,31 @@
-$font-stack: Helvetica, sans-serif;
-$primary-color: blue;
+* {
+  margin: 0px;
+  padding: 0px;
+}
 
-body {
-  font: 100% $font-stack;
-  color: $primary-color;
+.container {
+  width: 95%;
+  margin: 40px auto;
+  text-align: center;
+  background-color: gray;
+}
+
+.editor {
+  height: 400px;
+  display: inline-block;
+}
+
+.editor textarea {
+  width: 100%;
+  height: 100%;
+}
+
+.editor * {
+  display: inline-block;
+}
+
+.preview {
+  height: 400px;
+  display: inline-block;
+  vertical-align: top;
 }
