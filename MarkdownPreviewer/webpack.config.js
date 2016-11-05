@@ -1,5 +1,4 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const merge = require('webpack-merge');
 const validate = require('webpack-validator');
 const parts = require('./libs/parts');
@@ -20,11 +19,7 @@ const common = {
     path: PATHS.build,
     filename: '[name].js'
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Webpack demo'
-    })
-  ]
+  plugins: []
 };
 
 
@@ -33,12 +28,14 @@ var config;
 switch (process.env.npm_lifecycle_event) {
   case 'build':
     config = merge(common,
-      parts.setupCSS(PATHS.app));
+      parts.setupCSS(PATHS.app),
+      parts.setupBabel());
     break;
   default:
     config = merge(
       common,
       parts.setupCSS(PATHS.app),
+      parts.setupBabel(),
       parts.devServer({
 // Customize host/port here if needed
         host: process.env.HOST,

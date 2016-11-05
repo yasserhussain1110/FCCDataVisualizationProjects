@@ -1,8 +1,11 @@
-import editor from './components/editor';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import Editor from './components/editor';
 
 
-document.body.appendChild(
-  <div class="container">
-    editor()
-  </div>
-);
+const main = <div>
+  <Editor />
+  <div className="a">a</div>
+</div>;
+
+ReactDOM.render(main, document.querySelector(".container"));
