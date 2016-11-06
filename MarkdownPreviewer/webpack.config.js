@@ -29,7 +29,9 @@ switch (process.env.npm_lifecycle_event) {
   case 'build':
     config = merge(common,
       parts.setupCSS(PATHS.app),
-      parts.setupBabel());
+      parts.setupBabel(),
+      parts.minify(),
+      parts.setFreeVariable('process.env.NODE_ENV', 'production'));
     break;
   default:
     config = merge(
