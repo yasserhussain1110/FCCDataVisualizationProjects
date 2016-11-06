@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-export default () => {
+export default ({inputText, changeInputText}) => {
   return (
-    <div className="editor"><textarea></textarea></div>
+    <div className="editor">
+        <textarea value={inputText} onChange={ (event) => changeInputText(event.target.value) }>
+        </textarea>
+    </div>
   );
-};
+}

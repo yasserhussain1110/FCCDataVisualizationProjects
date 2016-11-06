@@ -1,7 +1,8 @@
 import React from 'react';
+import marked from 'marked';
 
-export default () => {
+export default ({inputText}) => {
   return (
-    <div className="preview">Preview</div>
+    <div className="preview" dangerouslySetInnerHTML={{__html : marked(inputText, {sanitize: true})}} />
   );
 };
