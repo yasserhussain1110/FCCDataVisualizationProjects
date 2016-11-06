@@ -1,7 +1,7 @@
 {
-  "name": "webpack-boilerplate",
+  "name": "Markdown Previewer",
   "version": "1.0.0",
-  "description": "Trying to learn sass",
+  "description": "A markdown previewer for FCC",
   "main": "index.js",
   "scripts": {
     "_comment": "Run `npm run [command]` to use the following commands",
