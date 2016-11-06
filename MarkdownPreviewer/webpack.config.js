@@ -9,9 +9,6 @@ const PATHS = {
 };
 
 const common = {
-// Entry accepts a path or an object of entries.
-// We'll be using the latter form given it's
-// convenient with more complex configurations.
   entry: {
     app: PATHS.app
   },
@@ -24,7 +21,6 @@ const common = {
 
 
 var config;
-// Detect how npm is run and branch based on that
 switch (process.env.npm_lifecycle_event) {
   case 'build':
     config = merge(common,
@@ -39,7 +35,6 @@ switch (process.env.npm_lifecycle_event) {
       parts.setupCSS(PATHS.app),
       parts.setupBabel(),
       parts.devServer({
-// Customize host/port here if needed
         host: process.env.HOST,
         port: process.env.PORT
       })
