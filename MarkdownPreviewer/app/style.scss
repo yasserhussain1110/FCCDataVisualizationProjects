@@ -1,3 +1,8 @@
+$editor-height: 500px;
+$previewer-height: 600px;
+$components-width: 550px;
+
+
 * {
   margin: 0px;
   padding: 0px;
@@ -10,8 +15,8 @@
 }
 
 .editor {
-  height: 500px;
-  width: 550px;
+  height: $editor-height;
+  width: $components-width;
   display: inline-block;
   margin-right: 20px;
 
@@ -31,8 +36,8 @@
 .preview {
   text-align: left;
   margin-left: 20px;
-  height: 600px;
-  width: 550px;
+  height: $previewer-height;
+  width: $components-width;
   display: inline-block;
   vertical-align: top;
 }

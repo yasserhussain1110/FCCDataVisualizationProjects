@@ -1,4 +1,4 @@
-import './style.css';
+import './style.scss';
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import Editor from './components/editor';
