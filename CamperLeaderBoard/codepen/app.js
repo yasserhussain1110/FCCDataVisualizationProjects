@@ -60,11 +60,11 @@ const updateSelectionUI = (target) => {
   $(target).addClass("sorted");
 };
 
-var LeaderBoard = ({campers, changeSelection, currentSelection}) => {
+var LeaderBoard = ({campers, changeSelection}) => {
   return (
     <div className="board">
       <h3>Leaderboard</h3>
-      <LeaderTable currentSelection={currentSelection} changeSelection={changeSelection} campers={campers}/>
+      <LeaderTable changeSelection={changeSelection} campers={campers}/>
     </div>
   )
 };
@@ -111,7 +111,6 @@ class App extends React.Component {
         <Header />
         <LeaderBoard
           changeSelection={(currentSelection)=>this.setState({currentSelection})}
-          currentSelection={this.currentSelection}
           campers={campers}/>
       </div>
     );
