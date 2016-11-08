@@ -13,14 +13,25 @@ export default ({campers, changeSelection}) => {
     return <Camper key={eachCamper.username} index={index} camper={eachCamper}/>;
   });
 
+  const handleClick = (target, newSelection) => {
+    updateSelectionUI(target);
+    changeSelection(newSelection);
+  };
+
   return (
     <table className="table table-striped table-bordered">
       <thead>
       <tr>
         <th>#</th>
         <th>Camper Name</th>
-        <th onClick={()=>changeSelection("past30")}>Points in the past 30 days</th>
-        <th onClick={()=>changeSelection("alltime")}>All time points</th>
+        <th className="sorted sortable"
+            onClick={(v)=>
+              handleClick(v.target, "past30")}>Points in the past 30 days
+        </th>
+        <th className="sortable"
+            onClick={(v)=>
+              handleClick(v.target, "alltime")}>All time points
+        </th>
       </tr>
       </thead>
       <tbody>
@@ -28,4 +39,10 @@ export default ({campers, changeSelection}) => {
       </tbody>
     </table>
   );
+};
+
+
+const updateSelectionUI = (target) => {
+  $(".sortable").removeClass("sorted");
+  $(target).addClass("sorted");
 };

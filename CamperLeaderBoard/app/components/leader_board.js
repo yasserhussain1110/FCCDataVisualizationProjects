@@ -1,11 +1,11 @@
 import React from 'react';
 import LeaderTable from './leader_table'
 
-export default ({campers, changeSelection}) => {
+export default ({campers, changeSelection, currentSelection}) => {
   return (
     <div className="board">
       <h3>Leaderboard</h3>
-      <LeaderTable changeSelection={changeSelection} campers={campers}/>
+      <LeaderTable currentSelection={currentSelection} changeSelection={changeSelection} campers={campers}/>
     </div>
   )
 };
