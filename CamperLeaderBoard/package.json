@@ -4,7 +4,7 @@
   "description": "FCC DataVisualization Project",
   "main": "index.js",
   "scripts": {
-    "_comment" : "Run `npm run [command]` to use the following commands",
+    "_comment": "Run `npm run [command]` to use the following commands",
     "build": "webpack",
     "start": "webpack-dev-server"
   },
@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "react": "^15.3.2",
-    "react-dom": "^15.3.2"
+    "react-dom": "^15.3.2",
+    "superagent": "^2.3.0"
   }
 }
