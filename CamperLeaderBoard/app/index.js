@@ -37,6 +37,7 @@ class App extends Component {
       <div className="container">
         <Header />
         <LeaderBoard
+          currentSelection={this.state.currentSelection}
           changeSelection={(currentSelection)=>this.setState({currentSelection})}
           campers={campers}/>
       </div>

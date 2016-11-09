@@ -1,7 +1,7 @@
 import React from 'react';
 import Camper from './camper';
 
-export default ({campers, changeSelection}) => {
+export default ({currentSelection, campers, changeSelection}) => {
 
   if (campers.length == 0) {
     return (
@@ -13,10 +13,14 @@ export default ({campers, changeSelection}) => {
     return <Camper key={eachCamper.username} index={index} camper={eachCamper}/>;
   });
 
-  const handleClick = (target, newSelection) => {
-    updateSelectionUI(target);
-    changeSelection(newSelection);
-  };
+  var past30Class = "sortable";
+  var alltimeClass = "sortable";
+
+  if (currentSelection === 'past30') {
+    past30Class += " sorted";
+  } else if (currentSelection === 'alltime') {
+    alltimeClass += " sorted";
+  }
 
   return (
     <table className="table table-striped table-bordered">
@@ -24,13 +28,13 @@ export default ({campers, changeSelection}) => {
       <tr>
         <th>#</th>
         <th>Camper Name</th>
-        <th className="sorted sortable"
+        <th className={past30Class}
             onClick={(v)=>
-              handleClick(v.target, "past30")}>Points in the past 30 days
+              changeSelection("past30")}>Points in the past 30 days
         </th>
-        <th className="sortable"
+        <th className={alltimeClass}
             onClick={(v)=>
-              handleClick(v.target, "alltime")}>All time points
+              changeSelection("alltime")}>All time points
         </th>
       </tr>
       </thead>
@@ -39,10 +43,4 @@ export default ({campers, changeSelection}) => {
       </tbody>
     </table>
   );
-};
-
-
-const updateSelectionUI = (target) => {
-  $(".sortable").removeClass("sorted");
-  $(target).addClass("sorted");
 };

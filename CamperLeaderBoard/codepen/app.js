@@ -14,7 +14,7 @@ var Camper = ({index, camper}) => {
   );
 };
 
-var LeaderTable = ({campers, changeSelection}) => {
+var LeaderTable = ({currentSelection, campers, changeSelection}) => {
 
   if (campers.length == 0) {
     return (
@@ -26,10 +26,14 @@ var LeaderTable = ({campers, changeSelection}) => {
     return <Camper key={eachCamper.username} index={index} camper={eachCamper}/>;
   });
 
-  const handleClick = (target, newSelection) => {
-    updateSelectionUI(target);
-    changeSelection(newSelection);
-  };
+  var past30Class = "sortable";
+  var alltimeClass = "sortable";
+
+  if (currentSelection === 'past30') {
+    past30Class += " sorted";
+  } else if (currentSelection === 'alltime') {
+    alltimeClass += " sorted";
+  }
 
   return (
     <table className="table table-striped table-bordered">
@@ -37,13 +41,13 @@ var LeaderTable = ({campers, changeSelection}) => {
       <tr>
         <th>#</th>
         <th>Camper Name</th>
-        <th className="sorted sortable"
+        <th className={past30Class}
             onClick={(v)=>
-              handleClick(v.target, "past30")}>Points in the past 30 days
+              changeSelection("past30")}>Points in the past 30 days
         </th>
-        <th className="sortable"
+        <th className={alltimeClass}
             onClick={(v)=>
-              handleClick(v.target, "alltime")}>All time points
+              changeSelection("alltime")}>All time points
         </th>
       </tr>
       </thead>
@@ -54,17 +58,11 @@ var LeaderTable = ({campers, changeSelection}) => {
   );
 };
 
-
-const updateSelectionUI = (target) => {
-  $(".sortable").removeClass("sorted");
-  $(target).addClass("sorted");
-};
-
-var LeaderBoard = ({campers, changeSelection}) => {
+var LeaderBoard = ({currentSelection, campers, changeSelection}) => {
   return (
     <div className="board">
       <h3>Leaderboard</h3>
-      <LeaderTable changeSelection={changeSelection} campers={campers}/>
+      <LeaderTable currentSelection={currentSelection} changeSelection={changeSelection} campers={campers}/>
     </div>
   )
 };
@@ -110,6 +108,7 @@ class App extends React.Component {
       <div className="container">
         <Header />
         <LeaderBoard
+          currentSelection={this.state.currentSelection}
           changeSelection={(currentSelection)=>this.setState({currentSelection})}
           campers={campers}/>
       </div>
