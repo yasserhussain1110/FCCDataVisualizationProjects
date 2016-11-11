@@ -18,4 +18,4 @@ export default ({recipes, changeSelection, removeRecipe}) => {
       {recipePanels}
     </div>
   );
-}
+};
