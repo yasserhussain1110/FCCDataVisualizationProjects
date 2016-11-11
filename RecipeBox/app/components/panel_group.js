@@ -13,7 +13,7 @@ export default ({recipes, changeSelection}) => {
   });
 
   return (
-    <div role="tablist" className="panel-group">
+    <div role="tablist" className="panel-group" id="accordion">
       {recipePanels}
     </div>
   );

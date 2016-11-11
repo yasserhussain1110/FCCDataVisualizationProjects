@@ -11,7 +11,7 @@ export default ({recipeName, ingredients, index, changeSelection}) => {
     <div className="panel panel-success">
       <div className="panel-heading">
         <h3 onClick={() => changeSelection(index)} className="panel-title">
-          <a data-toggle="collapse" href={`#collapse${index}`}>{recipeName}</a>
+          <a data-parent="#accordion" data-toggle="collapse" href={`#collapse${index}`}>{recipeName}</a>
         </h3>
       </div>
       <div id={`collapse${index}`} className="panel-collapse collapse ">
