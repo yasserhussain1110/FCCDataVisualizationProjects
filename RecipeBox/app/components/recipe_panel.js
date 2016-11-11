@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default ({recipeName, ingredients, index, changeSelection}) => {
+export default ({recipeName, ingredients, index, changeSelection, removeRecipe}) => {
   const ingredientList = ingredients.map(function (ingredient, index) {
     return (
       <li key={index} className="list-group-item">{ingredient}</li>
@@ -21,7 +21,7 @@ export default ({recipeName, ingredients, index, changeSelection}) => {
             {ingredientList}
           </ul>
           <div role="toolbar" className="btn-toolbar">
-            <button type="button" className="btn btn-danger">Delete</button>
+            <button type="button" onClick={removeRecipe} className="btn btn-danger">Delete</button>
             <button data-toggle="modal" data-target="#editRecipeModal" type="button" className="btn btn-default">Edit</button>
           </div>
         </div>

@@ -26,7 +26,7 @@ class App extends Component {
     };
   }
 
-  addToRecipes(name, ingredients) {
+  addRecipes(name, ingredients) {
     var recipes = this.state.recipes;
     recipes.push({name, ingredients});
     return recipes;
@@ -38,12 +38,18 @@ class App extends Component {
     return recipes;
   }
 
+  removeCurrentRecipe() {
+    var recipes = this.state.recipes;
+    recipes.splice(this.state.currentSelected, 1);
+    return recipes;
+  }
+
   updateCurrentSelection(currentSelected) {
-    this.setState({currentSelected});
-    console.log(this.state);
+    this.setState({currentSelected: currentSelected});
+
     this.refs.editRecipeModal.setState({
-      recipeName : this.state.recipes[this.state.currentSelected].name,
-      ingredients : this.state.recipes[this.state.currentSelected].ingredients,
+      recipeName : this.state.recipes[currentSelected].name,
+      ingredients : this.state.recipes[currentSelected].ingredients,
     });
   }
 
@@ -54,6 +60,7 @@ class App extends Component {
           <PanelGroup
             recipes={this.state.recipes}
             changeSelection={currentSelected => this.updateCurrentSelection(currentSelected)}
+            removeRecipe={index => this.setState({recipes: this.removeCurrentRecipe()})}
           />
         </div>
 
@@ -62,7 +69,7 @@ class App extends Component {
                      data-target="#newRecipeModal" className="btn btn-lg btn-primary">Add Recipe</button>
         </div>
 
-        <NewRecipeModal addRecipe={(name, ingredients) => {this.setState({recipes: this.addToRecipes(name, ingredients)})}}/>
+        <NewRecipeModal addRecipe={(name, ingredients) => {this.setState({recipes: this.addRecipes(name, ingredients)})}}/>
         <EditRecipeModal
           ref="editRecipeModal"
           changeRecipe={(name, ingredients) => {this.setState({recipes: this.modifyCurrentRecipe(name, ingredients)})}}
