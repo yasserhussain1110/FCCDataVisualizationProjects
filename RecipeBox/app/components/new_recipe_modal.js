@@ -29,17 +29,18 @@ export default class NewRecipeModal extends Component {
                 <div className="form-group">
                   <label htmlFor="ingredients">Ingredients</label>
                   <textarea
-                            onChange={e => this.setState({ingredients: e.target.value})}
-                            value={this.state.ingredients}
-                            type="textarea" className="form-control" id="ingredients"
-                            placeholder="Enter ingredients,separated by,commas"></textarea>
+                    onChange={e => this.setState({ingredients: e.target.value})}
+                    value={this.state.ingredients}
+                    type="textarea" className="form-control" id="ingredients"
+                    placeholder="Enter ingredients,separated by,commas"></textarea>
                 </div>
               </form>
             </div>
             <div className="modal-footer">
               <button type="button"
                       onClick={() => this.props.addRecipe(this.state.recipeName, this.state.ingredients.split(","))}
-                      className="btn btn-primary" data-dismiss="modal">Add Recipe</button>
+                      className="btn btn-primary" data-dismiss="modal">Add Recipe
+              </button>
               <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>

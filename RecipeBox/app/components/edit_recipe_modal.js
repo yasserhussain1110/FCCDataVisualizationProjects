@@ -39,7 +39,8 @@ export default class EditRecipeModal extends Component {
             <div className="modal-footer">
               <button type="button"
                       onClick={() => this.props.changeRecipe(this.state.recipeName, this.state.ingredients.split(","))}
-                      className="btn btn-primary" data-dismiss="modal">Edit Recipe</button>
+                      className="btn btn-primary" data-dismiss="modal">Edit Recipe
+              </button>
               <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
             </div>
           </div>

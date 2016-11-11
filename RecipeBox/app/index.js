@@ -48,8 +48,8 @@ class App extends Component {
     this.setState({currentSelected: currentSelected});
 
     this.refs.editRecipeModal.setState({
-      recipeName : this.state.recipes[currentSelected].name,
-      ingredients : this.state.recipes[currentSelected].ingredients,
+      recipeName: this.state.recipes[currentSelected].name,
+      ingredients: this.state.recipes[currentSelected].ingredients,
     });
   }
 
@@ -64,15 +64,21 @@ class App extends Component {
           />
         </div>
 
-        <div><button type="button"
-                     data-toggle="modal"
-                     data-target="#newRecipeModal" className="btn btn-lg btn-primary">Add Recipe</button>
+        <div>
+          <button type="button"
+                  data-toggle="modal"
+                  data-target="#newRecipeModal" className="btn btn-lg btn-primary">Add Recipe
+          </button>
         </div>
 
-        <NewRecipeModal addRecipe={(name, ingredients) => {this.setState({recipes: this.addRecipes(name, ingredients)})}}/>
+        <NewRecipeModal addRecipe={(name, ingredients) => {
+          this.setState({recipes: this.addRecipes(name, ingredients)})
+        }}/>
         <EditRecipeModal
           ref="editRecipeModal"
-          changeRecipe={(name, ingredients) => {this.setState({recipes: this.modifyCurrentRecipe(name, ingredients)})}}
+          changeRecipe={(name, ingredients) => {
+            this.setState({recipes: this.modifyCurrentRecipe(name, ingredients)})
+          }}
         />
       </div>
     );

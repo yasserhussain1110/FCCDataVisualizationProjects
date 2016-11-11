@@ -22,7 +22,8 @@ export default ({recipeName, ingredients, index, changeSelection, removeRecipe})
           </ul>
           <div role="toolbar" className="btn-toolbar">
             <button type="button" onClick={removeRecipe} className="btn btn-danger">Delete</button>
-            <button data-toggle="modal" data-target="#editRecipeModal" type="button" className="btn btn-default">Edit</button>
+            <button data-toggle="modal" data-target="#editRecipeModal" type="button" className="btn btn-default">Edit
+            </button>
           </div>
         </div>
       </div>
