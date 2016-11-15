@@ -5,7 +5,7 @@ export default class NewRecipeModal extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {recipeName: "", ingredients: ""};
+    this.state = {recipeName: "", ingredients: []};
   }
 
   render() {
@@ -41,7 +41,10 @@ export default class NewRecipeModal extends Component {
                       onClick={() => this.props.addRecipe(this.state.recipeName, this.state.ingredients.split(","))}
                       className="btn btn-primary" data-dismiss="modal">Add Recipe
               </button>
-              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" onClick={() => this.setState({recipeName: "", ingredients: []})}
+                      className="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
             </div>
           </div>
         </div>

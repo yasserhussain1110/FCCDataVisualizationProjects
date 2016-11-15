@@ -8,6 +8,14 @@ export default class EditRecipeModal extends Component {
     this.state = {recipeName: "", ingredients: []};
   }
 
+  resetState() {
+    const currentRecipe = this.props.getCurrentRecipe();
+    this.setState({
+      recipeName: currentRecipe.name,
+      ingredients: currentRecipe.ingredients
+    });
+  }
+
   render() {
     return (
       <div id="editRecipeModal" className="modal fade" role="dialog">
@@ -41,7 +49,9 @@ export default class EditRecipeModal extends Component {
                       onClick={() => this.props.changeRecipe(this.state.recipeName, this.state.ingredients.split(","))}
                       className="btn btn-primary" data-dismiss="modal">Edit Recipe
               </button>
-              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" onClick={() => this.resetState()} className="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
             </div>
           </div>
         </div>

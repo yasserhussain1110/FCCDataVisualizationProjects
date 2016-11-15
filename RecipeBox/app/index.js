@@ -11,7 +11,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      currentSelected : 0,
+      currentSelected: 0,
       recipes: [
         {
           name: "Banato",
@@ -71,14 +71,17 @@ class App extends Component {
           </button>
         </div>
 
-        <NewRecipeModal addRecipe={(name, ingredients) => {
-          this.setState({recipes: this.addRecipes(name, ingredients)})
-        }}/>
+        <NewRecipeModal
+          addRecipe={(name, ingredients) => {
+            this.setState({recipes: this.addRecipes(name, ingredients)})
+          }}
+        />
         <EditRecipeModal
           ref="editRecipeModal"
           changeRecipe={(name, ingredients) => {
             this.setState({recipes: this.modifyCurrentRecipe(name, ingredients)})
           }}
+          getCurrentRecipe={()=>this.state.recipes[this.state.currentSelected]}
         />
       </div>
     );

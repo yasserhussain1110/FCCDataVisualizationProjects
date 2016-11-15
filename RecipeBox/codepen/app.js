@@ -1,4 +1,3 @@
-
 const RecipePanel = ({recipeName, ingredients, index, changeSelection, removeRecipe}) => {
   const ingredientList = ingredients.map(function (ingredient, index) {
     return (
@@ -49,12 +48,13 @@ const PanelGroup = ({recipes, changeSelection, removeRecipe}) => {
   );
 };
 
+
 class NewRecipeModal extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.state = {recipeName: "", ingredients: ""};
+    this.state = {recipeName: "", ingredients: []};
   }
 
   render() {
@@ -90,7 +90,10 @@ class NewRecipeModal extends React.Component {
                       onClick={() => this.props.addRecipe(this.state.recipeName, this.state.ingredients.split(","))}
                       className="btn btn-primary" data-dismiss="modal">Add Recipe
               </button>
-              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" onClick={() => this.setState({recipeName: "", ingredients: []})}
+                      className="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
             </div>
           </div>
         </div>
@@ -100,14 +103,20 @@ class NewRecipeModal extends React.Component {
 }
 
 
-
-
 class EditRecipeModal extends React.Component {
 
   constructor(props) {
     super(props);
 
     this.state = {recipeName: "", ingredients: []};
+  }
+
+  resetState() {
+    const currentRecipe = this.props.getCurrentRecipe();
+    this.setState({
+      recipeName: currentRecipe.name,
+      ingredients: currentRecipe.ingredients
+    });
   }
 
   render() {
@@ -143,7 +152,9 @@ class EditRecipeModal extends React.Component {
                       onClick={() => this.props.changeRecipe(this.state.recipeName, this.state.ingredients.split(","))}
                       className="btn btn-primary" data-dismiss="modal">Edit Recipe
               </button>
-              <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" onClick={() => this.resetState()} className="btn btn-default" data-dismiss="modal">
+                Close
+              </button>
             </div>
           </div>
         </div>
@@ -151,8 +162,6 @@ class EditRecipeModal extends React.Component {
     );
   }
 }
-
-
 
 
 class App extends React.Component {
@@ -182,7 +191,6 @@ class App extends React.Component {
   addRecipes(name, ingredients) {
     var recipes = this.state.recipes;
     recipes.push({name, ingredients});
-
     return recipes;
   }
 
@@ -228,14 +236,17 @@ class App extends React.Component {
           </button>
         </div>
 
-        <NewRecipeModal addRecipe={(name, ingredients) => {
-          this.setState({recipes: this.addRecipes(name, ingredients)})
-        }}/>
+        <NewRecipeModal
+          addRecipe={(name, ingredients) => {
+            this.setState({recipes: this.addRecipes(name, ingredients)})
+          }}
+        />
         <EditRecipeModal
           ref="editRecipeModal"
           changeRecipe={(name, ingredients) => {
             this.setState({recipes: this.modifyCurrentRecipe(name, ingredients)})
           }}
+          getCurrentRecipe={()=>this.state.recipes[this.state.currentSelected]}
         />
       </div>
     );
