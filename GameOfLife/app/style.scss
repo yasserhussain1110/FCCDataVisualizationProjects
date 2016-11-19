@@ -1,6 +1,145 @@
-$font-stack:    Helvetica, sans-serif;
-$primary-color: blue;
+$theme-color: #333333;
+
+@mixin center-element {
+  margin: 0 auto;
+}
+
+@mixin clearfix {
+  content: " ";
+  visibility: hidden;
+  font-size: 0;
+  display: block;
+  clear: both;
+}
 
 body {
-  font: 100% $font-stack;
+  margin: 0;
+  padding: 0;
+  background-color: #3E1D1D;
+}
+
+.header {
+  margin: 0;
+  text-align: center;
+  background-color: $theme-color;
+  height: 50px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.header > a{
+  color: white;
+  text-decoration: none;
+}
+
+.control-panel {
+  @include center-element;
+  width: 50%;
+  background-color: $theme-color;
+  padding: 5px 5px;
+  margin-top: 70px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+button {
+  background-color: #222222;
+  color: white;
+  font-size: 20px;
+  border-top-left: 2px solid white;
+  border-top-right: 2px solid white;
+  border-radius: 5px;
+  margin: 5px 5px 5px 5px;
+}
+
+.selected {
+  background-color: #FFAAAA;
+}
+
+.control-panel > button {
+  width: 110px;
+  height: 30px;
+}
+
+.counter {
+  display: inline-block;
+  color: white;
+  font-family: courier;
+  font-size: 20px;
+  margin: 0px 0px 0px 20px;
+}
+
+.board {
+  @include center-element;
+  background-color: $theme-color;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
+  padding-top: 10px;
+  border-radius: 5px;
+}
+
+.small {
+  width: 700px;
+}
+
+.medium {
+  width: 900px;
+}
+
+.large {
+  width: 1100px;
+}
+
+.board:after {
+  @include clearfix;
+}
+
+.cell {
+  width: 11px;
+  height: 11px;
+  background-color: black;
+  float: left;
+  border-top: 1px solid #333;
+  border-left: 1px solid #222;
+}
+
+.bottom-menu {
+  @include center-element;
+  width: 50%;
+  padding: 0px 25px;
+  background-color: $theme-color;
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+}
+
+.bottom-menu > div > div {
+  display: inline-block;
+  color: #bbb;
+  font-family: courier;
+  font-size: 20px;
+  margin-right: 20px;
+}
+
+.bottom-menu button {
+  width: 140px;
+  height: 30px;
+  font-size: 16px;
+  color: #9196A8;
+}
+
+.notice {
+  width: 47%;
+  background-color: $theme-color;
+  color: #bbb;
+  font-size: 16px;
+  border-radius: 18px;
+  padding: 1px 0px 1px 25px;
+  margin: 10px auto;
+}
+
+.alive {
+  background-color: #EE4444;
 }

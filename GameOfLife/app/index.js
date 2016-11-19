@@ -1,6 +1,7 @@
 import './style.scss';
 import ReactDOM from 'react-dom';
 import React from 'react';
+import App from './components/App'
 
 
-ReactDOM.render(<h1>Hello</h1>, document.querySelector('#app'));
+ReactDOM.render(<App/>, document.querySelector('.container'));
