@@ -2,7 +2,10 @@ import React from 'react';
 
 export default ({currentBoardSpeed, currentBoardSize, changeBoardSpeed, changeBoardSize}) => {
 
-  const selectBoardClassName = (expectedValue, currentValue) => ( expectedValue ===  currentValue ? "selected" : "");
+  /* A higher order function. Awesome isn't it. Picked it up from SICP */
+  const getValueChecker = (className) => ( (expectedValue, currentValue) => ( expectedValue ===  currentValue ? className : "") );
+
+  const selectBoardClassName = getValueChecker("selected");
 
   return (
     <div className="bottom-menu">
