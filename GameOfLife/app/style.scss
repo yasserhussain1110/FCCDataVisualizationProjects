@@ -140,6 +140,14 @@ button {
   margin: 10px auto;
 }
 
-.alive {
+.old-alive {
   background-color: #EE4444;
+}
+
+.new-alive {
+  background-color: #FFAAAA;
+}
+
+.dead {
+  background-color: black;
 }

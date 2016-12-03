@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-export default ({id, isLiving}) => {
-  const cellColorClass = isLiving ? "alive" : "dead";
+export default ({id, val}) => {
+  const cellColorClass = val === 0 ? "dead" : val === 1 ? "new-alive" : "old-alive";
   return <div id={id} className={`cell ${cellColorClass}`}></div>;
 }

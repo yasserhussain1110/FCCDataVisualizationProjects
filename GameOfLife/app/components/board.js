@@ -1,18 +1,12 @@
 import React, {Component} from 'react';
-import _ from 'lodash';
 import Cell from './cell';
 
-const sizeToRowColumnMap = {
-  small: [30, 58],
-  medium: [55, 75],
-  large: [80, 91]
-};
+const getCellElementListFromBoardCellArray = (cells) => (
+  cells.map((val, index) => <Cell key={index} id={index} val={val}/>)
+);
 
-export default ({boardSize}) => {
-  const rowAndCol = sizeToRowColumnMap[boardSize];
+export default ({board}) => {
   return (
-    <div className={`board ${boardSize}`}>{_.range(rowAndCol[0] * rowAndCol[1]).map(i =>
-      <Cell key={i} id={i} isLiving={false}/>)}
-    </div>
+    <div className={`board ${board.size}`}>{getCellElementListFromBoardCellArray(board.cells)}</div>
   );
 };
