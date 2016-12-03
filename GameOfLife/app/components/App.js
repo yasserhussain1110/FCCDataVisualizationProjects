@@ -37,6 +37,7 @@ const createBoardWithRowsAndCols = (size, rows, columns) => ({
     size: size,
     rows: rows,
     columns: columns,
+    liveCellIndices: [],
     cells: Array(rows * columns).fill(0)
 });
 
@@ -74,19 +75,25 @@ export default class App extends Component {
     this.changeBoardSpeed = this.changeBoardSpeed.bind(this);
     this.changeBoardSize  = this.changeBoardSize.bind(this);
     this.updateBoard      = this.updateBoard.bind(this);
+    this.invertCellState     = this.invertCellState.bind(this);
+    this.pauseGame = this.pauseGame.bind(this);
+    this.runGame = this.runGame.bind(this);
+    this.clearGame = this.clearGame.bind(this);
 
     this.state = {
+      paused: false,
       gameInterval: null,
+      generation: 0,
       speedObject: {
         speed: "medium", // slow, medium, fast
         ticks: 600,
       },
       board: {
-        size: "medium",  // small, medium, large
-        rows: 55,
-        columns: 75,
+        size: "small",  // small, medium, large
+        rows: 30,
+        columns: 58,
         liveCellIndices: [],
-        cells: Array(55 * 75).fill(0)
+        cells: Array(30 * 58).fill(0)
       }
     };
   }
@@ -97,6 +104,7 @@ export default class App extends Component {
 
     var cells = createNewBoardFromOldBoardAndNextGenCells(currentBoard.cells, nextGenerationLiveCellIndices);
     this.setState({
+      generation: this.state.generation + 1,
       board: {
         size: currentBoard.size,
         rows: currentBoard.rows,
@@ -231,12 +239,70 @@ export default class App extends Component {
     });
   }
 
+  invertCellState(index) {
+    var board = this.state.board;
+    var isAlive = this.state.board.cells[index] > 0;
+
+    console.log(boards);
+
+    if (isAlive) {
+      var ii = board.liveCellIndices.indexOf(index);
+      board.liveCellIndices.splice(ii, 1);
+      board.cells[index] = 0;
+    } else {
+      board.liveCellIndices.push(index);
+      board.cells[index] = 1;
+    }
+
+    this.setState({board});
+  }
+
+  runGame() {
+    if (this.state.paused) {
+      this.setState({
+        paused: false,
+      });
+      this.state.gameInterval = setInterval(this.updateBoard, this.state.speedObject.ticks);
+    }
+  }
+
+  pauseGame() {
+    this.setState({
+      paused: true,
+    });
+    clearInterval(this.state.gameInterval);
+  }
+
+  clearGame() {
+    const freshBoard = boards[this.state.board.size];
+    console.log(freshBoard);
+    this.setState({
+      board: {
+        size: freshBoard.size,
+        rows: freshBoard.rows,
+        columns: freshBoard.columns,
+        liveCellIndices: [],
+        cells: freshBoard.cells.slice()
+      },
+      generation: 0
+    });
+    this.pauseGame();
+  }
+
   render() {
     return (
       <div id="#app">
         <Header />
-        <ControlPanel />
-        <Board board={this.state.board} />
+        <ControlPanel
+          paused={this.state.paused}
+          onPause={this.pauseGame}
+          onRun={this.runGame}
+          onClear={this.clearGame}
+          generation={this.state.generation}
+        />
+        <Board
+          onCellSelect={this.invertCellState}
+          board={this.state.board} />
         <BottomMenu
           currentBoardSpeed={this.state.speedObject.speed}
           currentBoardSize={this.state.board.size}

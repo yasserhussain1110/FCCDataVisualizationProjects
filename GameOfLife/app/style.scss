@@ -1,4 +1,5 @@
 $theme-color: #333333;
+$app-color: #FFAAAA;
 
 @mixin center-element {
   margin: 0 auto;
@@ -55,7 +56,7 @@ button {
 }
 
 .selected {
-  background-color: #FFAAAA;
+  background-color: $app-color;
 }
 
 .control-panel > button {
@@ -145,9 +146,13 @@ button {
 }
 
 .new-alive {
-  background-color: #FFAAAA;
+  background-color: $app-color;
 }
 
 .dead {
   background-color: black;
+}
+
+.paused {
+  background-color: $app-color;
 }
