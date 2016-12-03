@@ -5,8 +5,7 @@ import Board from './board';
 import BottomMenu from './bottom_menu';
 import ControlPanel from './control_panel';
 
-
-const uniq_fast = (a) => {
+const unique = (a) => {
   var seen = {};
   var out = [];
   var len = a.length;
@@ -21,15 +20,14 @@ const uniq_fast = (a) => {
   return out;
 };
 
-
 const createNewBoardFromOldBoardAndNextGenCells = (boardCells, aliveCellIndices) => {
   var newBoard = Array(boardCells.length).fill(0);
   for (var i=0; i<aliveCellIndices.length; i++) {
     var aliveCellIndex = aliveCellIndices[i];
-    if (boardCells[aliveCellIndex] === 1) {
-      newBoard[aliveCellIndex] = 2;
-    } else {
+    if (boardCells[aliveCellIndex] === 0) {
       newBoard[aliveCellIndex] = 1;
+    } else {
+      newBoard[aliveCellIndex] = 2;
     }
   }
   return newBoard;
@@ -54,14 +52,14 @@ const getSpeedObject = (speed, ticks) => ({
 });
 
 const gameSpeed = {
-  slow   : getSpeedObject("slow", 800),
-  medium : getSpeedObject("medium", 500),
+  slow   : getSpeedObject("slow", 1000),
+  medium : getSpeedObject("medium", 600),
   fast   : getSpeedObject("fast", 200),
 };
 
 const giveLifeToCellsRandomly = (length) => {
   var aliveCellIndices = [];
-  var fractionFilled = 1/10;
+  var fractionFilled = 1/8;
   for (var i=0; i < length * fractionFilled; i++) {
     var randomCell = (Math.random() * length) | 0;
     aliveCellIndices.push(randomCell);
@@ -81,7 +79,7 @@ export default class App extends Component {
       gameInterval: null,
       speedObject: {
         speed: "medium", // slow, medium, fast
-        ticks: 500,
+        ticks: 600,
       },
       board: {
         size: "medium",  // small, medium, large
@@ -165,14 +163,15 @@ export default class App extends Component {
   getNextGenerationLiveCellIndices() {
     var neighbourIndexList = [];
     var nextGenLive = [];
-    var cellProcessed = [];
     var liveCellIndices = this.state.board.liveCellIndices;
+
     for (var i=0; i<liveCellIndices.length; i++) {
       var neighbours = this.getAllNeighbours(liveCellIndices[i]);
       Array.prototype.push.apply(neighbourIndexList, neighbours);
     }
+    Array.prototype.push.apply(neighbourIndexList, liveCellIndices);
 
-    var finalNeighbourIndexList = uniq_fast(neighbourIndexList);
+    var finalNeighbourIndexList = unique(neighbourIndexList);
 
     for (var i=0; i<finalNeighbourIndexList.length; i++) {
       var cell = finalNeighbourIndexList[i];
@@ -180,53 +179,17 @@ export default class App extends Component {
         nextGenLive.push(cell);
       }
     }
+
     return nextGenLive;
   }
 
   willCellLive(i) {
-    var isAlive = this.state.board.liveCellIndices.indexOf(i) > -1;
+    var isAlive = this.state.board.cells[i] > 0;
     var allNeighbours = this.getAllNeighbours(i);
     var numberOfLiveCells = this.countLiveCells(allNeighbours);
 
-    if (isAlive) {
-      if (numberOfLiveCells >= 2 && numberOfLiveCells <= 3) {
-        return true;
-      }
-    } else {
-      if (numberOfLiveCells === 3) {
-        return true;
-      }
-    }
-
-    return false;
-
-  }
-
-  getNextGenerationCells() {
-    var nextGeneration = [];
-    var currentGeneration = this.state.board.cells;
-    for (var i=0; i < currentGeneration.length; i++) {
-      var cellState = currentGeneration[i];
-      var correspondingState = cellState;
-      var allNeighbours = this.getAllNeighbours(i);
-      var numberOfLiveCells = this.countLiveCells(allNeighbours);
-      if (cellState > 0) {
-        if (numberOfLiveCells < 2) {
-          correspondingState = 0;
-        } else if (numberOfLiveCells >= 2 && numberOfLiveCells <= 3) {
-          correspondingState = 2;
-        } else if (numberOfLiveCells > 3) {
-          correspondingState = 0;
-        }
-      } else if (cellState === 0) {
-        if (numberOfLiveCells === 3) {
-          correspondingState = 1;
-        }
-      }
-
-      nextGeneration.push(correspondingState);
-    }
-    return nextGeneration;
+    return (isAlive && numberOfLiveCells >= 2 && numberOfLiveCells <= 3) ||
+    (!isAlive && numberOfLiveCells === 3);
   }
 
   componentDidMount() {
@@ -255,13 +218,15 @@ export default class App extends Component {
 
   changeBoardSize(newSize) {
     var board = boards[newSize];
-    var boardWithAliveCells = giveLifeToCellsRandomly(board.cells);
+    var liveCellIndices = giveLifeToCellsRandomly(board.cells.length);
+    var cells = createNewBoardFromOldBoardAndNextGenCells(board.cells, liveCellIndices);
     this.setState({
       board: {
         size: board.size,
         rows: board.rows,
         columns: board.columns,
-        cells: boardWithAliveCells
+        liveCellIndices: liveCellIndices,
+        cells: cells
       }
     });
   }
