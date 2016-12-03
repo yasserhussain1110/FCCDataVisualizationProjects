@@ -175,6 +175,10 @@ class App extends React.Component {
 
   updateBoard() {
     const currentBoard =  this.state.board;
+    if (currentBoard.liveCellIndices.length === 0) {
+      clearInterval(this.state.gameInterval);
+      return;
+    }
     var nextGenerationLiveCellIndices = this.getNextGenerationLiveCellIndices();
 
     var cells = createNewBoardFromOldBoardAndNextGenCells(currentBoard.cells, nextGenerationLiveCellIndices);
