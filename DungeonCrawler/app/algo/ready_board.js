@@ -27,4 +27,40 @@
       }
     }
   }
- */
+*/
+
+/*
+room = {
+  origin: [],
+  width: 0,
+  height: 0
+};
+*/
+
+
+const ready_rooms = () => {
+  var rooms = get_random_rooms(20, 25, 25);
+  rooms[0].origin = [0,0];
+
+  for (var i=1; i<rooms.length; i++) {
+    rooms[i].origin = [rooms[i-1].origin[0] + rooms[i-1].height + 1, 0];
+  }
+  return rooms;
+};
+
+const get_random_rooms = (number_of_rooms, max_height, max_width) => {
+  var rooms = [];
+  for (var i=0; i<number_of_rooms; i++) {
+    rooms.push({
+      width: random(1, max_width),
+      height: random(1, max_height)
+    });
+  }
+  return rooms;
+};
+
+const random = (lower_limit, upper_limit) => (
+  ((Math.random() * (upper_limit - lower_limit + 1)) | 0) + lower_limit
+);
+
+export default ready_rooms;

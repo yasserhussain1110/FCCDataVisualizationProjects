@@ -1,4 +1,4 @@
-$font-stack:    Helvetica, sans-serif;
+$font-stack: Palatino, 'Palatino Linotype', Georgia;
 $primary-color: white;
 
 * {
@@ -7,7 +7,10 @@ $primary-color: white;
 }
 
 .container {
-  font: 100% $font-stack;
+  font-family: $font-stack;
+  background-color: black;
+  height: 650px;
+  padding-top: 20px;
 }
 
 #app {
@@ -16,13 +19,19 @@ $primary-color: white;
 
 .board {
   width: 1200px;
-  height: 400px;
-  background-color: #808080;
-
+  height: 396px;
 }
 
 .tile {
-  width: 5px;
-  height: 5px;
+  width: .75em;
+  height: .75em;
+  float: left;
+}
+
+.wall {
+  background-color: #808080;
+}
+
+.room {
   background-color: white;
 }
