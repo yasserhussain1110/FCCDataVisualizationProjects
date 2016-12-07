@@ -1,7 +1,28 @@
 $font-stack:    Helvetica, sans-serif;
 $primary-color: white;
 
-body {
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.container {
   font: 100% $font-stack;
-  background-color: $primary-color;
+}
+
+#app {
+  margin-left: 8px;
+}
+
+.board {
+  width: 1200px;
+  height: 400px;
+  background-color: #808080;
+
+}
+
+.tile {
+  width: 5px;
+  height: 5px;
+  background-color: white;
 }
