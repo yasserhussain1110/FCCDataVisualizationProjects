@@ -9,7 +9,7 @@ export default () => {
   var args = {
     total_number_of_rows: 102,
     total_number_of_columns: 100,
-    number_of_rooms: 4,
+    number_of_rooms: 10,
     max_width: 25,
     min_width: 4,
     max_height: 25,

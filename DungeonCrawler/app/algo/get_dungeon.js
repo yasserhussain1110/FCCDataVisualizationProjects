@@ -141,7 +141,7 @@ const try_to_create_connection_at_a_random_place_between_rooms = (total_number_o
   };
 
   var unplaced_room_origin =
-    get_unplaced_room_origin(placed_room_connection_side, connection_cell, unplaced_room_connection_position);
+    get_unplaced_room_origin(placed_room_connection_side, connection_cell, unplaced_room_connection_position, unplaced_room);
 
   return {
     connection_cell: connection_cell,
@@ -149,15 +149,15 @@ const try_to_create_connection_at_a_random_place_between_rooms = (total_number_o
   }
 };
 
-const get_unplaced_room_origin = (placed_room_connection_side, connection_cell, unplaced_room_connection_position) => {
+const get_unplaced_room_origin = (placed_room_connection_side, connection_cell, unplaced_room_connection_position, unplaced_room) => {
   if (placed_room_connection_side === "top") {   // connection is on top of placed room
-    var unplaced_room_row = connection_cell.row - 1;
+    var unplaced_room_row = connection_cell.row - unplaced_room.height;
     var unplaced_room_column = connection_cell.col - unplaced_room_connection_position;
   } else if (placed_room_connection_side === "bottom") {
     var unplaced_room_row = connection_cell.row + 1;
     var unplaced_room_column = connection_cell.col - unplaced_room_connection_position;
   } else if (placed_room_connection_side === "left") {
-    var unplaced_room_column = connection_cell.col - 1;
+    var unplaced_room_column = connection_cell.col - unplaced_room.width;
     var unplaced_room_row = connection_cell.row - unplaced_room_connection_position;
   } else if (placed_room_connection_side === "right") {
     var unplaced_room_column = connection_cell.col + 1;
@@ -195,9 +195,10 @@ const get_dungeon = ({
     var placed_room_index = select_a_random_room_index(placed_rooms);
     var unplaced_room_index = select_a_random_room_index(unplaced_rooms);
 
-    console.log("These many remaining - " + unplaced_rooms.length);
+    //console.log("These many remaining - " + unplaced_rooms.length);
 
-    for (var i = 0; i < 20; i++) {
+    for (var i = 0; i < 50; i++) {
+
       var outcome = try_to_create_connection_at_a_random_place_between_rooms(total_number_of_rows,
         total_number_of_columns,
         placed_rooms[placed_room_index],
@@ -210,6 +211,9 @@ const get_dungeon = ({
       if (!is_unplaced_room_outside_the_board(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index],
           total_number_of_rows, total_number_of_columns) &&
         !does_unplaced_room_overlap_with_other_rooms(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index], placed_rooms)) {
+
+        console.log("number of trials - " + (++i));
+
         unplaced_rooms[unplaced_room_index].origin = outcome.unplaced_room_origin;
         placed_rooms.push(unplaced_rooms[unplaced_room_index]);
         unplaced_rooms.splice(unplaced_room_index, 1);
@@ -225,5 +229,7 @@ const get_dungeon = ({
   };
 
 };
+
+// get_unplaced_room_origin("left", {row: 84, col: 67}, 10, {id: 1, width: 25, height: 17});
 
 export default get_dungeon;
