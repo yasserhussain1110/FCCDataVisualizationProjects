@@ -42,7 +42,28 @@ const position_room_randomly_on_board = (total_number_of_rows, total_number_of_c
   return {row, col};
 };
 
-const does_unplaced_room_overlap = (unplaced_room_tentative_origin, unplaced_room, all_placed_rooms) => {
+
+const is_unplaced_room_outside_the_board = (unplaced_room_tentative_origin, unplaced_room,
+                                            total_number_of_rows, total_number_of_columns) => {
+  var tentative_full_unplaced_room_object = {
+    origin: unplaced_room_tentative_origin,
+    height: unplaced_room.height,
+    width: unplaced_room.width
+  };
+
+  return tentative_full_unplaced_room_object.origin.row < 0
+    ||
+
+    tentative_full_unplaced_room_object.origin.col < 0
+    ||
+
+    tentative_full_unplaced_room_object.origin.row + tentative_full_unplaced_room_object.height >= total_number_of_rows
+    ||
+
+    tentative_full_unplaced_room_object.origin.col + tentative_full_unplaced_room_object.width >= total_number_of_columns;
+};
+
+const does_unplaced_room_overlap_with_other_rooms = (unplaced_room_tentative_origin, unplaced_room, all_placed_rooms) => {
 
   var tentative_full_unplaced_room_object = {
     origin: unplaced_room_tentative_origin,
@@ -168,17 +189,27 @@ const get_dungeon = ({
   placed_rooms.push(unplaced_rooms[a_room_index]);
   unplaced_rooms.splice(a_room_index, 1);
 
+  var runner = 0;
   while (unplaced_rooms.length != 0) {
+    //console.log("running - " + (++runner));
     var placed_room_index = select_a_random_room_index(placed_rooms);
     var unplaced_room_index = select_a_random_room_index(unplaced_rooms);
 
-    for (var i = 0; i < 10; i++) {
+    console.log("These many remaining - " + unplaced_rooms.length);
+
+    for (var i = 0; i < 20; i++) {
       var outcome = try_to_create_connection_at_a_random_place_between_rooms(total_number_of_rows,
         total_number_of_columns,
         placed_rooms[placed_room_index],
         unplaced_rooms[unplaced_room_index]);
 
-      if (!does_unplaced_room_overlap(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index], placed_rooms)) {
+      if (outcome.unplaced_room_origin.col < 0 || outcome.unplaced_room_origin.row < 0) {
+        console.log("why neg");
+      }
+
+      if (!is_unplaced_room_outside_the_board(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index],
+          total_number_of_rows, total_number_of_columns) &&
+        !does_unplaced_room_overlap_with_other_rooms(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index], placed_rooms)) {
         unplaced_rooms[unplaced_room_index].origin = outcome.unplaced_room_origin;
         placed_rooms.push(unplaced_rooms[unplaced_room_index]);
         unplaced_rooms.splice(unplaced_room_index, 1);

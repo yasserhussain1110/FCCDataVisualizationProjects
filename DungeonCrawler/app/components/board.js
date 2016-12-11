@@ -25,7 +25,6 @@ export default () => {
 
   console.log(rooms);
 
-
   for (var i = 0; i < board_array.length; i++) {
     board_array[i] = <span key={i} className="tile wall"></span>;
   }
