@@ -1,3 +1,5 @@
+import do_rooms_overlap_or_touch from './room_overlap';
+
 const select_a_random_room_index = (list_of_rooms) => (random(0, list_of_rooms.length - 1));
 
 const get_random_rooms = (number_of_rooms, max_width, min_width, max_height, min_height) => {
@@ -38,38 +40,6 @@ const position_room_randomly_on_board = (total_number_of_rows, total_number_of_c
   }
 
   return {row, col};
-};
-
-const get_all_corners = (room) => {
-  var origin_corner = room.origin;
-  var origin_down_corner = {
-    row: room.origin.row + room.height - 1,
-    col: room.origin.col
-  };
-  var origin_right_corner = {
-    row: room.origin.row,
-    col: room.origin.col + room.width - 1
-  };
-  var origin_opposite_corner = {
-    row: room.origin.row + room.height,
-    col: room.origin.col + room.width - 1
-  };
-
-  return [origin_corner, origin_down_corner, origin_right_corner, origin_opposite_corner];
-};
-
-/* This is fucking hard dude */
-const do_rooms_overlap_or_touch = (room1, room2) => {
-  var corners = get_all_corners(room2);
-  for (var i = 0; i < corners.length; i++) {
-    var c = corners[i];
-    if (room1.row - 1 <= c.row && c.row <= room1.row + room1.height
-      &&
-      room1.col - 1 <= c.col && c.col <= room1.col + room1.width) {
-      return true;
-    }
-  }
-  return false;
 };
 
 const does_unplaced_room_overlap = (unplaced_room_tentative_origin, unplaced_room, all_placed_rooms) => {
