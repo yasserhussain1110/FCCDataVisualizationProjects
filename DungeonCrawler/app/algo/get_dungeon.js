@@ -1,4 +1,5 @@
 import do_rooms_overlap_or_touch from './room_overlap';
+import {random} from './common';
 
 const select_a_random_room_index = (list_of_rooms) => (random(0, list_of_rooms.length - 1));
 
@@ -13,10 +14,6 @@ const get_random_rooms = (number_of_rooms, max_width, min_width, max_height, min
   }
   return rooms;
 };
-
-var random = (lower_limit, upper_limit) => (   // upper limit is inclusive here
-  ((Math.random() * (upper_limit - lower_limit + 1)) | 0) + lower_limit
-);
 
 const position_room_randomly_on_board = (total_number_of_rows, total_number_of_columns, a_room) => {
   var row, col;
@@ -215,6 +212,11 @@ const get_dungeon = ({
         console.log("number of trials - " + (++i));
 
         unplaced_rooms[unplaced_room_index].origin = outcome.unplaced_room_origin;
+        unplaced_rooms[unplaced_room_index].connections =
+          addConnectionToRoom(unplaced_rooms[unplaced_room_index], outcome.connection_cell);
+        placed_rooms[placed_room_index].connections =
+          addConnectionToRoom(placed_rooms[placed_room_index], outcome.connection_cell);
+
         placed_rooms.push(unplaced_rooms[unplaced_room_index]);
         unplaced_rooms.splice(unplaced_room_index, 1);
         connection_cells_between_rooms.push(outcome.connection_cell);
@@ -229,6 +231,13 @@ const get_dungeon = ({
   };
 
 };
+
+const addConnectionToRoom = (room, connection_cell) => {
+  var room_connections = room.connections || [];
+  room_connections.push(connection_cell);
+  return room_connections;
+};
+
 
 // get_unplaced_room_origin("left", {row: 84, col: 67}, 10, {id: 1, width: 25, height: 17});
 
