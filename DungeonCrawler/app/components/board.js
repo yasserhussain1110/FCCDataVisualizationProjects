@@ -5,7 +5,9 @@ const convert_to_1d_index = (row, col, number_of_cols) => (row * number_of_cols 
 
 export default ({total_number_of_rows, total_number_of_columns, dungeon, player, enemies, weapons, healths, boss, transporter}) => {
 
-  var board_array = get_board_array(total_number_of_rows, total_number_of_columns);
+  var board_array = get_board_array(35, total_number_of_columns);
+
+  /*
 
   place_rooms_on_board_array(board_array, dungeon.rooms, total_number_of_columns);
 
@@ -21,7 +23,7 @@ export default ({total_number_of_rows, total_number_of_columns, dungeon, player,
 
   place_boss_on_board_array(board_array, boss, total_number_of_columns);
 
-  place_transporter_on_board_array(board_array, transporter, total_number_of_columns);
+  place_transporter_on_board_array(board_array, transporter, total_number_of_columns); */
 
   return <div className="board">{board_array}</div>;
 };
