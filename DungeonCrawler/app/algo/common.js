@@ -30,3 +30,6 @@ export const object_position_already_taken = (object_position, other_objects) =>
   }
   return false;
 };
+
+
+export const convert_to_1d_index = (row, col, number_of_cols) => (row * number_of_cols + col);

@@ -7,6 +7,7 @@ import get_weapons from '../gameobjects/weapons';
 import get_healths from '../gameobjects/healths';
 import get_transporter from '../gameobjects/transporter';
 import get_boss from '../gameobjects/boss';
+import LightScreen from '../screens/LightScreen';
 
 
 const game_args = {
@@ -35,7 +36,8 @@ class App extends Component {
       boss: null,
       weapons: null,
       healths: null,
-      transporter: null
+      transporter: null,
+      screen: new LightScreen(game_args.total_number_of_rows, game_args.total_number_of_columns)
     };
   }
 
