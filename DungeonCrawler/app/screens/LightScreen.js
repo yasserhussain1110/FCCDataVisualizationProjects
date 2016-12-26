@@ -42,7 +42,7 @@ class LightScreen extends Screen {
     this.initPlayerPosition(player_position);
   }
 
-  placeRoomsOnBoardArray(rooms) {
+  placeRooms(rooms) {
     for (var i = 0; i < rooms.length; i++) {
       var room = rooms[i];
       if (this.doesRoomLieOnScreen(room)) {
@@ -70,7 +70,7 @@ class LightScreen extends Screen {
     );
   }
 
-  placeConnectionCellsOnBoardArray(connection_cells) {
+  placeConnectionCells(connection_cells) {
     for (var i = 0; i < connection_cells.length; i++) {
       var connection_cell = connection_cells[i];
       if (this.doesSingleTileObjectLieOnScreen(connection_cell)) {
@@ -79,13 +79,13 @@ class LightScreen extends Screen {
     }
   }
 
-  placePlayerOnBoardArray(player) {
+  placePlayer(player) {
     if (this.doesSingleTileObjectLieOnScreen(player)) {
       this.projectSingleTileObjectLieOnScreen(player, "player");
     }
   }
 
-  placeEnemiesOnBoardArray(enemies) {
+  placeEnemies(enemies) {
     for (var i = 0; i < enemies.length; i++) {
       var enemy = enemies[i];
       if (this.doesSingleTileObjectLieOnScreen(enemy)) {
@@ -94,7 +94,7 @@ class LightScreen extends Screen {
     }
   }
 
-  placeWeaponsOnBoardArray(weapons) {
+  placeWeapons(weapons) {
     for (var i = 0; i < weapons.length; i++) {
       var weapon = weapons[i];
       if (this.doesSingleTileObjectLieOnScreen(weapon)) {
@@ -103,7 +103,7 @@ class LightScreen extends Screen {
     }
   }
 
-  placeHealthsOnBoardArray(healths) {
+  placeHealths(healths) {
     for (var i = 0; i < healths.length; i++) {
       var health = healths[i];
       if (this.doesSingleTileObjectLieOnScreen(health)) {
@@ -112,13 +112,13 @@ class LightScreen extends Screen {
     }
   }
 
-  placeBossOnBoardArray(boss) {
+  placeBoss(boss) {
     if (this.doesSingleTileObjectLieOnScreen(boss)) {
       this.projectSingleTileObjectLieOnScreen(boss, "boss");
     }
   }
 
-  placeTransporterOnBoardArray(transporter) {
+  placeTransporter(transporter) {
     if (this.doesSingleTileObjectLieOnScreen(transporter)) {
       this.projectSingleTileObjectLieOnScreen(transporter, "transporter");
     }

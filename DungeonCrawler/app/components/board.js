@@ -4,25 +4,25 @@ export default ({screen, dungeon, player, enemies, weapons, healths, boss, trans
 
   screen.initBoardWithPlayerPosition(player.position);
 
-  screen.placeRoomsOnBoardArray(dungeon.rooms);
+  screen.placeRooms(dungeon.rooms);
 
-  screen.placeConnectionCellsOnBoardArray(dungeon.connection_cells);
+  screen.placeConnectionCells(dungeon.connection_cells);
 
-  screen.placePlayerOnBoardArray(player);
+  screen.placePlayer(player);
 
-  screen.placeEnemiesOnBoardArray(enemies);
+  screen.placeEnemies(enemies);
 
-  screen.placeWeaponsOnBoardArray(weapons);
+  screen.placeWeapons(weapons);
 
-  screen.placeHealthsOnBoardArray(healths);
+  screen.placeHealths(healths);
 
 
   if (boss) {
-    screen.placeBossOnBoardArray(boss);
+    screen.placeBoss(boss);
   }
 
   if (transporter) {
-    screen.placeTransporterOnBoardArray(transporter);
+    screen.placeTransporter(transporter);
   }
 
   return <div className="board">{screen.getRenderableBoard()}</div>;
