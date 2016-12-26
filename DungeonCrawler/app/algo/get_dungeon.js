@@ -188,11 +188,8 @@ const get_dungeon = ({
 
   var runner = 0;
   while (unplaced_rooms.length != 0) {
-    //console.log("running - " + (++runner));
     var placed_room_index = select_a_random_room_index(placed_rooms);
     var unplaced_room_index = select_a_random_room_index(unplaced_rooms);
-
-    //console.log("These many remaining - " + unplaced_rooms.length);
 
     for (var i = 0; i < 50; i++) {
 
@@ -201,15 +198,8 @@ const get_dungeon = ({
         placed_rooms[placed_room_index],
         unplaced_rooms[unplaced_room_index]);
 
-      if (outcome.unplaced_room_origin.col < 0 || outcome.unplaced_room_origin.row < 0) {
-        console.log("why neg");
-      }
-
       if (!is_unplaced_room_outside_the_board(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index],
-          total_number_of_rows, total_number_of_columns) &&
-        !does_unplaced_room_overlap_with_other_rooms(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index], placed_rooms)) {
-
-        console.log("number of trials - " + (++i));
+          total_number_of_rows, total_number_of_columns) && !does_unplaced_room_overlap_with_other_rooms(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index], placed_rooms)) {
 
         unplaced_rooms[unplaced_room_index].origin = outcome.unplaced_room_origin;
         unplaced_rooms[unplaced_room_index].connections =
