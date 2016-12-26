@@ -2,8 +2,8 @@ import {get_random_position_for_game_object, object_position_already_taken} from
 
 const get_enemies = (dungeon, dungeon_level, already_present_game_objects, number_of_enemies) => {
   var enemies = [];
-  for (var i=0; i<number_of_enemies; i++) {
-    while(true) {
+  for (var i = 0; i < number_of_enemies; i++) {
+    while (true) {
       var enemy_position = get_random_position_for_game_object(dungeon);
       if (!object_position_already_taken(enemy_position, already_present_game_objects)) {
         enemies.push(make_enemy_with_position_according_to_level(enemy_position, dungeon_level));

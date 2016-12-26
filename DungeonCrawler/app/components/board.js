@@ -1,8 +1,5 @@
 import React from 'react';
 
-/* 100 by 33 viewing area tile board */
-/* 100 by 102 total area tile board */
-
 const convert_to_1d_index = (row, col, number_of_cols) => (row * number_of_cols + col);
 
 
@@ -44,7 +41,7 @@ const place_transporter_on_board_array = (board_array, transporter, total_number
 };
 
 const place_healths_on_board_array = (board_array, healths, total_number_of_columns) => {
-  for (var i=0; i<healths.length; i++) {
+  for (var i = 0; i < healths.length; i++) {
     var h = healths[i];
     var index = convert_to_1d_index(h.position.row, h.position.col, total_number_of_columns);
     board_array[index] = <span key={index} className="tile health"></span>;
@@ -52,7 +49,7 @@ const place_healths_on_board_array = (board_array, healths, total_number_of_colu
 };
 
 const place_weapons_on_board_array = (board_array, weapons, total_number_of_columns) => {
-  for (var i=0; i<weapons.length; i++) {
+  for (var i = 0; i < weapons.length; i++) {
     var w = weapons[i];
     var index = convert_to_1d_index(w.position.row, w.position.col, total_number_of_columns);
     board_array[index] = <span key={index} className="tile weapon"></span>;
@@ -60,7 +57,7 @@ const place_weapons_on_board_array = (board_array, weapons, total_number_of_colu
 };
 
 const place_enemies_on_board_array = (board_array, enemies, total_number_of_columns) => {
-  for (var i=0; i<enemies.length; i++) {
+  for (var i = 0; i < enemies.length; i++) {
     var e = enemies[i];
     var index = convert_to_1d_index(e.position.row, e.position.col, total_number_of_columns);
     board_array[index] = <span key={index} className="tile enemy"></span>;
@@ -103,38 +100,4 @@ const place_rooms_on_board_array = (board_array, rooms, total_number_of_columns)
     }
   }
 };
-
-/*
-export default () => {
-  var board_array = Array(args.total_number_of_columns * args.total_number_of_rows);
-
-  console.log(rooms);
-
-  for (var i = 0; i < board_array.length; i++) {
-    board_array[i] = <span key={i} className="tile wall"></span>;
-  }
-
-  for (var i = 0; i < rooms.length; i++) {
-    var r = rooms[i];
-
-    for (var row = r.origin.row; row < r.origin.row + r.height; row++) {
-      for (var col = r.origin.col; col < r.origin.col + r.width; col++) {
-        var index = convert_to_1d_index(row, col, args.total_number_of_columns);
-        board_array[index] = <span key={index} className="tile room"></span>;
-      }
-    }
-  }
-
-
-  for (var i = 0; i < connection_cells.length; i++) {
-    var c = connection_cells[i];
-    var index = convert_to_1d_index(c.row, c.col, args.total_number_of_columns);
-    board_array[index] = <span key={index} className="tile room"></span>;
-  }
-
-
-  return <div className="board">{board_array}</div>;
-}
-*/
-
 

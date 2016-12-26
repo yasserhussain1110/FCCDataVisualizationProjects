@@ -8,11 +8,11 @@ const get_player = (dungeon, dungeon_level, player) => {
     return player;
   } else {
     return {
-      position : player_position,
-      health : 100,
+      position: player_position,
+      health: 100,
       experience: 0,
-      level : 1,
-      weapon : get_starting_weapon()
+      level: 1,
+      weapon: get_starting_weapon()
     }
   }
 };
