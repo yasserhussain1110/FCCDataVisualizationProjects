@@ -12,6 +12,13 @@ import _ from 'lodash';
 import GameScreen from './GameScreen';
 import GameMenu from './GameMenu';
 
+const isKeyPressEventConsumable = (e) => {
+  return e.key === "ArrowRight" ||
+    e.key === "ArrowLeft" ||
+    e.key === "ArrowUp" ||
+    e.key === "ArrowDown";
+};
+
 class Board extends Component {
 
   constructor(props) {
@@ -95,15 +102,8 @@ class Board extends Component {
     return this.state.dungeonLevel === 4;
   }
 
-  isKeyPressEventConsumable(e) {
-    return e.key === "ArrowRight" ||
-      e.key === "ArrowLeft" ||
-      e.key === "ArrowUp" ||
-      e.key === "ArrowDown";
-  }
-
   handleKeyPress(e) {
-    if (this.isKeyPressEventConsumable(e)) {
+    if (isKeyPressEventConsumable(e)) {
       this.setState(move(e.key, this.state));
       e.preventDefault();
     }
@@ -113,7 +113,6 @@ class Board extends Component {
     return (
       <BoardSlave {...this.state} />
     );
-
   }
 }
 
