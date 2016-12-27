@@ -4,7 +4,7 @@
   "description": "Dungeon Crawler game for FCC",
   "main": "index.js",
   "scripts": {
-    "_comment" : "Run `npm run [command]` to use the following commands",
+    "_comment": "Run `npm run [command]` to use the following commands",
     "build": "webpack",
     "start": "webpack-dev-server"
   },
@@ -33,6 +33,7 @@
     "webpack-validator": "^2.2.9"
   },
   "dependencies": {
+    "lodash": "^4.17.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2"
   }

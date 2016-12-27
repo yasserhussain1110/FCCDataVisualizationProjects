@@ -9,7 +9,7 @@ import get_transporter from '../gameobjects/transporter';
 import get_boss from '../gameobjects/boss';
 import LightScreen from '../screens/LightScreen';
 import move from '../actionhandlers/move';
-
+import _ from 'lodash';
 
 const game_args = {
   total_number_of_rows: 102,
@@ -30,7 +30,7 @@ class App extends Component {
      The state object will be initialized later.
      */
 
-    this.handleKeyPress = this.handleKeyPress.bind(this);
+    this.handleKeyPress = _.throttle(this.handleKeyPress.bind(this), 50);
 
     this.state = {
       dungeon: null,
