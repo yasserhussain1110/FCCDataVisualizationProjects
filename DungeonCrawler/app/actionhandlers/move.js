@@ -1,5 +1,7 @@
-import {get_rooms_having_connection_cell, position_in_which_of_two_rooms,
-  is_position_one_of_connection_cells, is_position_in_room} from '../algo/movement_helper';
+import {
+  get_rooms_having_connection_cell, position_in_which_of_two_rooms,
+  is_position_one_of_connection_cells, is_position_in_room
+} from '../algo/movement_helper';
 
 import {is_collision, take_action_based_on_collision_type} from '../algo/collision_helper';
 
@@ -8,7 +10,7 @@ const move = (key, gameState) => {
   var collision_result;
 
   if (collision_result = is_collision(tentative_position, gameState.enemies,
-                                          gameState.weapons, gameState.healths, gameState.transporter, gameState.boss)) {
+      gameState.weapons, gameState.healths, gameState.transporter, gameState.boss)) {
 
     return take_action_based_on_collision_type(collision_result, gameState);
 
@@ -29,7 +31,7 @@ const try_to_move = (tentative_position, player, rooms, connection_cells) => {
     var room = position_in_which_of_two_rooms(tentative_position, rooms_having_connection_cell[0], rooms_having_connection_cell[1]);
 
     if (!room) {
-      // Nothing Changed
+      // No change. Not a valid move.
       return player;
     }
 
@@ -38,14 +40,14 @@ const try_to_move = (tentative_position, player, rooms, connection_cells) => {
     player.position = tentative_position;
     return player;
 
-  } else if(player.room) {
-    if (is_position_one_of_connection_cells(tentative_position, connection_cells)) {
+  } else if (player.room) {
+    if (is_position_in_room(tentative_position, player.room)) {
+      player.position = tentative_position;
+      return player;
+    } else if (is_position_one_of_connection_cells(tentative_position, connection_cells)) {
       player.connection_cell = tentative_position;
       player.position = tentative_position;
       player.room = null;
-      return player;
-    } else if (is_position_in_room(tentative_position, player.room)) {
-      player.position = tentative_position;
       return player;
     } else {
       // No change. Not a valid move.
