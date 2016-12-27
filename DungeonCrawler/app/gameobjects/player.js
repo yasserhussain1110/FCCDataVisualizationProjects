@@ -1,14 +1,19 @@
-import {get_random_position_for_game_object} from '../algo/common';
+import {get_random_placement_for_game_object_with_room_handle} from '../algo/common';
 import {get_starting_weapon} from './weapons';
 
 const get_player = (dungeon, dungeon_level, player) => {
-  var player_position = get_random_position_for_game_object(dungeon);
+  var result = get_random_placement_for_game_object_with_room_handle(dungeon);
+
   if (dungeon_level > 1) {
-    player.position = player_position;
+    player.position = result.position;
+    player.room = result.room;
+    player.connection_cell = null;
     return player;
   } else {
     return {
-      position: player_position,
+      position: result.position,
+      room: result.room,
+      connection_cell: null,
       health: 100,
       experience: 0,
       level: 1,

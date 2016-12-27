@@ -8,6 +8,7 @@ import get_healths from '../gameobjects/healths';
 import get_transporter from '../gameobjects/transporter';
 import get_boss from '../gameobjects/boss';
 import LightScreen from '../screens/LightScreen';
+import move from '../actionhandlers/move';
 
 
 const game_args = {
@@ -28,6 +29,9 @@ class App extends Component {
      All possible attributes are shown below for documentation purposes.
      The state object will be initialized later.
      */
+
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+
     this.state = {
       dungeon: null,
       dungeonLevel: 1,
@@ -37,6 +41,8 @@ class App extends Component {
       weapons: null,
       healths: null,
       transporter: null,
+      gameOver: false,
+      playerWon: false,
       screen: new LightScreen(game_args.total_number_of_rows, game_args.total_number_of_columns)
     };
   }
@@ -71,6 +77,7 @@ class App extends Component {
 
     return {
       dungeon,
+      dungeonLevel,
       player,
       enemies,
       boss,
@@ -85,8 +92,26 @@ class App extends Component {
     this.setState(gameState);
   }
 
+  componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyPress);
+  }
+
   isLastLevel() {
     return this.state.dungeonLevel === 4;
+  }
+
+  isKeyPressEventConsumable(e) {
+    return e.key === "ArrowRight" ||
+      e.key === "ArrowLeft" ||
+      e.key === "ArrowUp" ||
+      e.key === "ArrowDown";
+  }
+
+  handleKeyPress(e) {
+    if(this.isKeyPressEventConsumable(e)) {
+      this.setState(move(e.key, this.state));
+      e.preventDefault();
+    }
   }
 
   render() {

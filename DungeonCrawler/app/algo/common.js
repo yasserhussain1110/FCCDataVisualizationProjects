@@ -20,6 +20,15 @@ export const get_random_position_in_room = (room) => {
 
 export const get_random_position_for_game_object = (dungeon) => (get_random_position_in_room(get_random_room(dungeon)));
 
+export const get_random_placement_for_game_object_with_room_handle = (dungeon) => {
+  var room = get_random_room(dungeon);
+  var position = get_random_position_in_room(room);
+  return {
+    room: room,
+    position: position
+  }
+};
+
 export const is_position_taken = (position1, position2) => (position1.row === position2.row && position1.col === position2.col);
 
 export const object_position_already_taken = (object_position, other_objects) => {

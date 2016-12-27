@@ -202,10 +202,12 @@ const get_dungeon = ({
           total_number_of_rows, total_number_of_columns) && !does_unplaced_room_overlap_with_other_rooms(outcome.unplaced_room_origin, unplaced_rooms[unplaced_room_index], placed_rooms)) {
 
         unplaced_rooms[unplaced_room_index].origin = outcome.unplaced_room_origin;
-        unplaced_rooms[unplaced_room_index].connections =
-          addConnectionToRoom(unplaced_rooms[unplaced_room_index], outcome.connection_cell);
-        placed_rooms[placed_room_index].connections =
-          addConnectionToRoom(placed_rooms[placed_room_index], outcome.connection_cell);
+
+        unplaced_rooms[unplaced_room_index].connection_cells =
+          add_to_connection_cells(unplaced_rooms[unplaced_room_index].connection_cells, outcome.connection_cell);
+
+        placed_rooms[placed_room_index].connection_cells =
+          add_to_connection_cells(placed_rooms[placed_room_index].connection_cells, outcome.connection_cell);
 
         placed_rooms.push(unplaced_rooms[unplaced_room_index]);
         unplaced_rooms.splice(unplaced_room_index, 1);
@@ -222,10 +224,13 @@ const get_dungeon = ({
 
 };
 
-const addConnectionToRoom = (room, connection_cell) => {
-  var room_connections = room.connections || [];
-  room_connections.push(connection_cell);
-  return room_connections;
+const add_to_connection_cells = (connection_cells, connection_cell) => {
+  if (!connection_cells) {
+    connection_cells = [];
+  }
+
+  connection_cells.push(connection_cell);
+  return connection_cells;
 };
 
 
