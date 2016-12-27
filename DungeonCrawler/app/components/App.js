@@ -4,6 +4,8 @@ import Board from './Board';
 const App = (props) => {
   return (
     <div id="app">
+      <h1>React Roguelike</h1>
+      <h4>Kill the boss in dungeon 4</h4>
       <Board game_args={props.game_args}/>
     </div>
   );

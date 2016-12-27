@@ -1,3 +1,5 @@
+import {get_player_attack} from '../gameobjects/player';
+
 const health_handler = (gameState, healthIndex) => {
   var player = gameState.player;
   var healths = gameState.healths;
@@ -36,7 +38,7 @@ const enemy_handler = (gameState, enemyIndex) => {
   var enemies = gameState.enemies;
   var enemy = enemies[enemyIndex];
 
-  var player_attack = Math.floor((player.level / 3) * player.weapon.attack);
+  var player_attack = get_player_attack(player);
 
   enemy.health -= player_attack;
   player.health -= enemy.attack;
@@ -68,7 +70,7 @@ const boss_handler = (gameState) => {
   var player = gameState.player;
   var boss = gameState.boss;
 
-  var player_attack = Math.floor((player.level / 3) * player.weapon.attack);
+  var player_attack = get_player_attack(player);
 
   boss.health -= player_attack;
   player.health -= boss.attack;

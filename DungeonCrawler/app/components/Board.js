@@ -9,6 +9,8 @@ import get_boss from '../gameobjects/boss';
 import LightScreen from '../screens/LightScreen';
 import move from '../actionhandlers/move';
 import _ from 'lodash';
+import GameScreen from './GameScreen';
+import GameMenu from './GameMenu';
 
 class Board extends Component {
 
@@ -20,7 +22,7 @@ class Board extends Component {
      The state object will be initialized later.
      */
 
-    this.handleKeyPress = _.throttle(this.handleKeyPress.bind(this), 50);
+    this.handleKeyPress = _.throttle(this.handleKeyPress.bind(this), 100);
 
     this.state = {
       dungeon: null,
@@ -115,32 +117,16 @@ class Board extends Component {
   }
 }
 
-const BoardSlave = ({screen, dungeon, player, enemies, weapons, healths, boss, transporter}) => {
+const BoardSlave = (props) => (
+  <div className="game-holder">
+    <GameMenu
+      dungeonLevel={props.dungeonLevel}
+      player={props.player}
+    />
 
-  screen.initBoardWithPlayerPosition(player.position);
+    <GameScreen {...props}/>
+  </div>
+);
 
-  screen.placeRooms(dungeon.rooms);
-
-  screen.placeConnectionCells(dungeon.connection_cells);
-
-  screen.placePlayer(player);
-
-  screen.placeEnemies(enemies);
-
-  screen.placeWeapons(weapons);
-
-  screen.placeHealths(healths);
-
-
-  if (boss) {
-    screen.placeBoss(boss);
-  }
-
-  if (transporter) {
-    screen.placeTransporter(transporter);
-  }
-
-  return <div className="board">{screen.getRenderableBoard()}</div>;
-};
 
 export default Board;

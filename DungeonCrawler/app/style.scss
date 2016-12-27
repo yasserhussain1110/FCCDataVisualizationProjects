@@ -1,6 +1,12 @@
 $font-stack: Palatino, 'Palatino Linotype', Georgia;
 $primary-color: white;
 
+@mixin header {
+  color: $primary-color;
+  text-align: center;
+  font-weight: bold;
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -13,13 +19,52 @@ $primary-color: white;
   padding-top: 20px;
 }
 
+h1 {
+  @include header;
+  font-size: 2em;
+}
+
+h4 {
+  @include header;
+}
+
 #app {
   margin-left: 8px;
 }
 
-.board {
+.label {
+  font-weight: 900;
+}
+
+.game-screen {
   width: 1200px;
   height: 396px;
+  background-color: blue;
+}
+
+.game-info {
+  color: white;
+  margin-top: 40px;
+  display: inline-block;
+}
+
+.game-info > ul > li {
+  display: inline;
+  margin: 0px 30px;
+  font-family: Roboto;
+}
+
+.button-panel {
+  display: inline-block;
+  margin-left: 100px;
+}
+
+.toggle-button {
+  padding: 5px 0px;
+}
+
+.menu {
+  margin-bottom: 10px;
 }
 
 .tile {

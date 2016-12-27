@@ -22,4 +22,9 @@ const get_player = (dungeon, dungeon_level, player) => {
   }
 };
 
+export const get_player_attack = (player) => {
+  var player_attack = Math.floor((player.level / 3) * player.weapon.attack);
+  return player_attack;
+};
+
 export default get_player;
