@@ -42,6 +42,7 @@ const enemy_handler = (gameState, enemyIndex) => {
 
   enemy.health -= player_attack;
   player.health -= enemy.attack;
+  player.experience++;
 
   if (player.health <= 0) {
     return {
@@ -51,6 +52,7 @@ const enemy_handler = (gameState, enemyIndex) => {
 
   if (enemy.health <= 0) {
     enemies.splice(enemyIndex, 1);
+    player.experience += 9;
   }
 
   return {
@@ -74,6 +76,7 @@ const boss_handler = (gameState) => {
 
   boss.health -= player_attack;
   player.health -= boss.attack;
+  player.experience++;
 
   if (player.health <= 0) {
     return {
