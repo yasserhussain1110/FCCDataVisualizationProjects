@@ -5,28 +5,32 @@ const GameMenu = ({dungeonLevel, player}) => (
   <div className="menu">
     <div className="game-info">
       <ul>
-        <li>
+        <li className="health-menu">
           <span className="label">Health: </span>
           <span>{player.health}</span>
         </li>
 
-        <li>
+        <li className="weapon-menu">
           <span className="label">Weapon: </span>
           <span>{player.weapon.name}</span>
         </li>
 
-        <li>
-          <span className="label">Attack: </span>
-          <span>{get_player_attack(player)}</span>
-
+        <li className="exp-menu">
+          <span className="label">Exp: </span>
+          <span>{player.experience}</span>
         </li>
 
-        <li>
+        <li className="attack-menu">
+          <span className="label">Attack: </span>
+          <span>{get_player_attack(player)}</span>
+        </li>
+
+        <li className="level-menu">
           <span className="label">Level: </span>
           <span>{player.level}</span>
         </li>
 
-        <li>
+        <li className="dg-level-menu">
           <span className="label">Dungeon Level: </span>
           <span>{dungeonLevel}</span>
         </li>

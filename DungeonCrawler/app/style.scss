@@ -48,10 +48,30 @@ h4 {
   display: inline-block;
 }
 
-.game-info > ul > li {
-  display: inline;
-  margin: 0px 30px;
+li {
+  display: inline-block;
   font-family: Roboto;
+  width: 120px;
+  text-align: center;
+}
+
+.health-menu {
+  width: 100px;
+  text-align: center;
+}
+
+.weapon-menu {
+  width: 200px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+.dg-level-menu {
+  width: 125px;
+}
+
+.toggle-button {
+  padding: 5px 0px;
 }
 
 .button-panel {
@@ -59,9 +79,6 @@ h4 {
   margin-left: 100px;
 }
 
-.toggle-button {
-  padding: 5px 0px;
-}
 
 .menu {
   margin-bottom: 10px;

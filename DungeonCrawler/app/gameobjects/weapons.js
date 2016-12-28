@@ -1,7 +1,7 @@
 import {get_random_position_for_game_object, object_position_already_taken} from '../algo/common';
 
 export const get_starting_weapon = () => ({
-  name: "hand",
+  name: "Bare Hands",
   attack: 40
 });
 
