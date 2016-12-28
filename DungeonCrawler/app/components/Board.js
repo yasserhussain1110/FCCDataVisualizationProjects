@@ -63,7 +63,7 @@ class Board extends Component {
 
     var boss, transporter = null;
     if (dungeonLevel === 4) { //  Last level
-      boss = get_boss();
+      boss = get_boss(dungeon, gameObjects);
       gameObjects.push(boss);
     } else {
       transporter = get_transporter(dungeon, gameObjects);
