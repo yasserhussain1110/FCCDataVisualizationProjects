@@ -36,11 +36,11 @@ const enemy_level_to_health_attack_map = [{
   health: 600,
   attack: 50
 }, {
-  health: 1600,
-  attack: 100
+  health: 1000,
+  attack: 80
 }, {
-  health: 3000,
-  attack: 200
+  health: 2400,
+  attack: 125
 }];
 
 export default get_enemies;

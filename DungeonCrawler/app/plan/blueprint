@@ -84,8 +84,8 @@ Player -
     Exp - 40   Level - II   (Scourge of The Damned)
     Exp - 100  Level - III  (Beast of Netherworld)
     Exp - 200  Level - IV   (Knight of Necropolis)
-    Exp - 350  Level - V    (Monster Lord of Doom)
-    Exp - 600  Level - VI   (Member of Inner Circle of Darkness)
+    Exp - 300  Level - V    (Monster Lord of Doom)
+    Exp - 450  Level - VI   (Member of Inner Circle of Darkness)
 
   Attack -
     (int) ( level / 3 ) * weapon attack
@@ -102,14 +102,14 @@ Weapons -
     Enchanted Chain Saw   - 300
 
   Dungeon Level III -
-    Sword of Dark Knight  - 350
-    Sword of Angel Blood  - 400
-    Demon Spirit Sword    - 450
+    Sword of Dark Knight  - 450
+    Sword of Angel Blood  - 600
+    Demon Spirit Sword    - 800
 
   Dungeon Level IV -
-    Lightening of Death   - 500
-    Inner Darkness        - 550
-    Summoner Staff        - 600
+    Lightening of Death   - 1100
+    Inner Darkness        - 1400
+    Summoner Staff        - 2000
 
 
 Dungeon Level 1 -
@@ -124,11 +124,11 @@ Dungeon Level 2 -
 
 Dungeon Level 3 -
   Enemy Level - 3
-  Health - 1600
-  Attack - 100
+  Health - 1000
+  Attack - 80
 
 Dungeon Level 4 -
   Enemy Level - 4
-  Health - 3000
-  Attack - 200
+  Health - 2400
+  Attack - 125
 

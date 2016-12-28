@@ -29,9 +29,9 @@ export const get_player_level_based_on_exp = (player) => {
     return 2;
   } else if(player.experience < 200) {
     return 3;
-  } else if(player.experience < 350) {
+  } else if(player.experience < 300) {
     return 4;
-  } else if(player.experience < 600) {
+  } else if(player.experience < 450) {
     return 5;
   } else {
     return 6;

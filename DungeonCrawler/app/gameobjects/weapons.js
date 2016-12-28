@@ -46,22 +46,22 @@ const weapons = [
     attack: 300
   }], [{
     name: "Sword of Dark Knight",
-    attack: 350
+    attack: 450
   }, {
     name: "Sword of Angel Blood",
-    attack: 400
+    attack: 600
   }, {
     name: "Demon Spirit Sword",
-    attack: 450
+    attack: 800
   }], [{
     name: "Lightening of Death",
-    attack: 500
+    attack: 1100
   }, {
     name: "Inner Darkness",
-    attack: 550
+    attack: 1400
   }, {
     name: "Summoner Staff",
-    attack: 600
+    attack: 2000
   }]
 ];
 

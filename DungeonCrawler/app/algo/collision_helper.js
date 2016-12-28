@@ -61,7 +61,7 @@ const enemy_handler = (gameState, enemyIndex) => {
 
   if (enemy_health <= 0) {
     enemies.splice(enemyIndex, 1);
-    player.experience += 9;
+    player.experience += 10;
   }
 
   player.level = get_player_level_based_on_exp(player);
