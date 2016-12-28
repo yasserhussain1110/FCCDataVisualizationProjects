@@ -13,7 +13,7 @@ import GameScreen from './GameScreen';
 import GameMenu from './GameMenu';
 import humane from 'humane-js';
 
-const notifier = humane.create({baseCls: 'humane-jackedup', timeout: 5000});
+const notifier = humane.create({baseCls: 'humane-jackedup', timeout: 4000});
 notifier.error = notifier.spawn({addnCls: 'humane-jackedup-error'});
 notifier.success = notifier.spawn({addnCls: 'humane-jackedup-success'});
 
@@ -92,7 +92,7 @@ class Board extends Component {
     var resetGameStatus = this.readyGame(1);
     resetGameStatus.gameOver = false;
     resetGameStatus.playerWon = false;
-    setTimeout(() => this.setState(resetGameStatus), 1000);
+    this.setState(resetGameStatus);
   }
 
   componentWillMount() {
@@ -124,7 +124,7 @@ class Board extends Component {
       if (newGameState.gameOver) {
         notifier.error('You are dead, Bruh!');
         this.setState({gameOver: true});
-        this.resetGame();
+        setTimeout(() => this.resetGame(), 1000);
       } else if (newGameState.playerWon) {
         notifier.success("You are victorious, Bruh!");
         this.setState({playerWon: true});

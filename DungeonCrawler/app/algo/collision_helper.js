@@ -40,10 +40,18 @@ const enemy_handler = (gameState, enemyIndex) => {
 
   var player_attack = get_player_attack(player);
 
-  enemy.health -= player_attack;
-  player.health -= enemy.attack;
+  /* TODO :- Cleanup using :-
+    this.setState({ selected: { ...this.state.selected, name: 'barfoo' } })
+    See - http://stackoverflow.com/questions/18933985/this-setstate-isnt-merging-states-as-i-would-expect#comment50704283_18934259
+  */
 
-  if (player.health <= 0) {
+  var enemy_health = enemy.health;
+  var player_health = player.health;
+
+  enemy_health -= player_attack;
+  player_health -= enemy.attack;
+
+  if (player_health <= 0) {
     return {
       gameOver: true
     };
@@ -51,12 +59,14 @@ const enemy_handler = (gameState, enemyIndex) => {
 
   player.experience++;
 
-  if (enemy.health <= 0) {
+  if (enemy_health <= 0) {
     enemies.splice(enemyIndex, 1);
     player.experience += 9;
   }
 
   player.level = get_player_level_based_on_exp(player);
+  player.health = player_health;
+  enemy.health = enemy_health;
 
   return {
     player,
