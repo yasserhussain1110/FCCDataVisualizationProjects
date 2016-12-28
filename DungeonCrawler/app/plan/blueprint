@@ -71,8 +71,8 @@ transporter -
 boss -
 {
   position: { row : 0, col : 0}
-  Health - 6000
-  Attack - 400
+  Health - 5000
+  Attack - 350
 }
 
 Player -
@@ -85,7 +85,7 @@ Player -
     Exp - 100  Level - III  (Beast of Netherworld)
     Exp - 200  Level - IV   (Knight of Necropolis)
     Exp - 300  Level - V    (Monster Lord of Doom)
-    Exp - 450  Level - VI   (Member of Inner Circle of Darkness)
+    Exp - 350  Level - VI   (Member of Inner Circle of Darkness)
 
   Attack -
     (int) ( level / 3 ) * weapon attack

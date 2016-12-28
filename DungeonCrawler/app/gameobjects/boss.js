@@ -7,8 +7,8 @@ export default (dungeon, already_present_game_objects) => {
     if (!object_position_already_taken(boss_position, already_present_game_objects)) {
       return {
         position: boss_position,
-        health: 6000,
-        attack: 400
+        health: 5000,
+        attack: 350
       }
     }
   }

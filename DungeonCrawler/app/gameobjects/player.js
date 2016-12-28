@@ -32,7 +32,7 @@ export const get_player_level_based_on_exp = (player) => {
     return 3;
   } else if (player.experience < 300) {
     return 4;
-  } else if (player.experience < 450) {
+  } else if (player.experience < 350) {
     return 5;
   } else {
     return 6;

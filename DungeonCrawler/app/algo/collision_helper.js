@@ -100,7 +100,7 @@ const boss_handler = (gameState) => {
   boss_health -= player_attack;
   player_health -= get_boss_attack(boss);
 
-  if (player.health <= 0) {
+  if (player_health <= 0) {
     return {
       gameOver: true
     };

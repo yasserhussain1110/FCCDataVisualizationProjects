@@ -16,7 +16,7 @@ const get_healths = (dungeon, dungeon_level, already_present_game_objects, numbe
 
 const make_health_according_to_dungeon_level = (health_position, dungeon_level) => ({
   position: health_position,
-  amount: 100
+  amount: 200
 });
 
 export default get_healths;

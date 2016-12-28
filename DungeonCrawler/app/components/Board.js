@@ -51,7 +51,7 @@ class Board extends Component {
 
   readyGame(dungeonLevel) {
     var number_of_enemies = 10;
-    var number_of_healths = 8;
+    var number_of_healths = 6;
     var gameObjects = [];
 
     var game_args = this.props.game_args;
