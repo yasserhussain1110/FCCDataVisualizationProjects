@@ -1,6 +1,8 @@
 $font-stack: Palatino, 'Palatino Linotype', Georgia;
 $primary-color: white;
 
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
+
 @mixin header {
   color: $primary-color;
   text-align: center;
@@ -119,5 +121,5 @@ li {
 }
 
 .boss {
-  background-color: crimson;
+  background-color: mediumvioletred;
 }

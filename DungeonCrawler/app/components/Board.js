@@ -11,13 +11,11 @@ import move from '../actionhandlers/move';
 import _ from 'lodash';
 import GameScreen from './GameScreen';
 import GameMenu from './GameMenu';
+import humane from 'humane-js';
 
-const isKeyPressEventConsumable = (e) => {
-  return e.key === "ArrowRight" ||
-    e.key === "ArrowLeft" ||
-    e.key === "ArrowUp" ||
-    e.key === "ArrowDown";
-};
+const notifier = humane.create({baseCls: 'humane-jackedup', timeout: 5000});
+notifier.error = notifier.spawn({addnCls: 'humane-jackedup-error'});
+notifier.success = notifier.spawn({addnCls: 'humane-jackedup-success'});
 
 class Board extends Component {
 
@@ -30,6 +28,7 @@ class Board extends Component {
      */
 
     this.handleKeyPress = _.throttle(this.handleKeyPress.bind(this), 100);
+    this.resetGame = this.resetGame.bind(this);
 
     this.state = {
       dungeon: null,
@@ -63,7 +62,7 @@ class Board extends Component {
     Array.prototype.push.apply(gameObjects, enemies);
 
     var boss, transporter = null;
-    if (this.isLastLevel()) {
+    if (dungeonLevel === 4) { //  Last level
       boss = get_boss();
       gameObjects.push(boss);
     } else {
@@ -89,6 +88,13 @@ class Board extends Component {
     }
   }
 
+  resetGame() {
+    var resetGameStatus = this.readyGame(1);
+    resetGameStatus.gameOver = false;
+    resetGameStatus.playerWon = false;
+    setTimeout(() => this.setState(resetGameStatus), 1000);
+  }
+
   componentWillMount() {
     const gameState = this.readyGame(1);
     this.setState(gameState);
@@ -102,9 +108,31 @@ class Board extends Component {
     return this.state.dungeonLevel === 4;
   }
 
+  isKeyPressEventConsumable(e) {
+    return !this.state.gameOver && !this.state.playerWon && (
+        e.key === "ArrowRight" ||
+        e.key === "ArrowLeft" ||
+        e.key === "ArrowUp" ||
+        e.key === "ArrowDown"
+      );
+  };
+
   handleKeyPress(e) {
-    if (isKeyPressEventConsumable(e)) {
-      this.setState(move(e.key, this.state));
+    if (this.isKeyPressEventConsumable(e)) {
+      var newGameState = move(e.key, this.state);
+
+      if (newGameState.gameOver) {
+        notifier.error('You are dead, Bruh!');
+        this.setState({gameOver: true});
+        this.resetGame();
+      } else if (newGameState.playerWon) {
+        notifier.success("You are victorious, Bruh!");
+        this.setState({playerWon: true});
+      } else if (newGameState.dungeonLevel === this.state.dungeonLevel + 1) {
+        this.setState(this.readyGame(newGameState.dungeonLevel));
+      } else {
+        this.setState(newGameState);
+      }
       e.preventDefault();
     }
   }

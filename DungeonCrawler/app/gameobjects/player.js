@@ -22,6 +22,22 @@ const get_player = (dungeon, dungeon_level, player) => {
   }
 };
 
+export const get_player_level_based_on_exp = (player) => {
+  if (player.experience < 40) {
+    return 1;
+  } else if(player.experience < 100) {
+    return 2;
+  } else if(player.experience < 200) {
+    return 3;
+  } else if(player.experience < 350) {
+    return 4;
+  } else if(player.experience < 600) {
+    return 5;
+  } else {
+    return 6;
+  }
+};
+
 export const get_player_attack = (player) => {
   var player_attack = Math.floor((player.level / 3) * player.weapon.attack);
   return player_attack;

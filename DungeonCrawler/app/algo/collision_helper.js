@@ -1,4 +1,4 @@
-import {get_player_attack} from '../gameobjects/player';
+import {get_player_attack, get_player_level_based_on_exp} from '../gameobjects/player';
 
 const health_handler = (gameState, healthIndex) => {
   var player = gameState.player;
@@ -42,7 +42,6 @@ const enemy_handler = (gameState, enemyIndex) => {
 
   enemy.health -= player_attack;
   player.health -= enemy.attack;
-  player.experience++;
 
   if (player.health <= 0) {
     return {
@@ -50,10 +49,14 @@ const enemy_handler = (gameState, enemyIndex) => {
     };
   }
 
+  player.experience++;
+
   if (enemy.health <= 0) {
     enemies.splice(enemyIndex, 1);
     player.experience += 9;
   }
+
+  player.level = get_player_level_based_on_exp(player);
 
   return {
     player,
@@ -77,6 +80,7 @@ const boss_handler = (gameState) => {
   boss.health -= player_attack;
   player.health -= boss.attack;
   player.experience++;
+  player.level = get_player_level_based_on_exp(player);
 
   if (player.health <= 0) {
     return {
@@ -94,8 +98,6 @@ const boss_handler = (gameState) => {
     player,
     boss
   }
-
-
 };
 
 const collision_handlers = {
