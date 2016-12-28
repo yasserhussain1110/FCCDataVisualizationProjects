@@ -1,7 +1,7 @@
 import React from 'react';
 import {get_player_attack} from '../gameobjects/player';
 
-const GameMenu = ({dungeonLevel, player}) => (
+const GameMenu = ({dungeonLevel, player, toggleScreen}) => (
   <div className="menu">
     <div className="game-info">
       <ul>
@@ -38,7 +38,7 @@ const GameMenu = ({dungeonLevel, player}) => (
     </div>
 
     <div className="button-panel">
-      <button className="toggle-button" id="toggler">Toggle Darkness</button>
+      <button onClick={toggleScreen} className="toggle-button" id="toggler">Toggle Darkness</button>
     </div>
   </div>
 );

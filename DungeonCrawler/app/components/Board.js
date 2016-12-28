@@ -7,6 +7,7 @@ import get_healths from '../gameobjects/healths';
 import get_transporter from '../gameobjects/transporter';
 import get_boss from '../gameobjects/boss';
 import LightScreen from '../screens/LightScreen';
+import DarkScreen from '../screens/DarkScreen';
 import move from '../actionhandlers/move';
 import _ from 'lodash';
 import GameScreen from './GameScreen';
@@ -29,6 +30,7 @@ class Board extends Component {
 
     this.handleKeyPress = _.throttle(this.handleKeyPress.bind(this), 100);
     this.resetGame = this.resetGame.bind(this);
+    this.toggleScreen = this.toggleScreen.bind(this);
 
     this.state = {
       dungeon: null,
@@ -41,7 +43,8 @@ class Board extends Component {
       transporter: null,
       gameOver: false,
       playerWon: false,
-      screen: new LightScreen(props.game_args.total_number_of_rows, props.game_args.total_number_of_columns)
+      screen: new DarkScreen(props.game_args.total_number_of_rows, props.game_args.total_number_of_columns),
+      screenType: "Dark"
     };
   }
 
@@ -85,6 +88,22 @@ class Board extends Component {
       weapons,
       healths,
       transporter
+    }
+  }
+
+  toggleScreen() {
+    if (this.state.screenType === "Light") {
+      this.setState({
+        screenType: "Dark",
+        screen: new DarkScreen(this.props.game_args.total_number_of_rows,
+          this.props.game_args.total_number_of_columns)
+      });
+    } else if (this.state.screenType === "Dark") {
+      this.setState({
+        screenType: "Light",
+        screen: new LightScreen(this.props.game_args.total_number_of_rows,
+          this.props.game_args.total_number_of_columns)
+      });
     }
   }
 
@@ -139,7 +158,10 @@ class Board extends Component {
 
   render() {
     return (
-      <BoardSlave {...this.state} />
+      <BoardSlave
+        {...this.state}
+        toggleScreen={this.toggleScreen}
+      />
     );
   }
 }
@@ -147,6 +169,7 @@ class Board extends Component {
 const BoardSlave = (props) => (
   <div className="game-holder">
     <GameMenu
+      toggleScreen={props.toggleScreen}
       dungeonLevel={props.dungeonLevel}
       player={props.player}
     />
