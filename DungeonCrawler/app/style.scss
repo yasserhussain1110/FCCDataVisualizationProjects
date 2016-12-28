@@ -9,6 +9,15 @@ $primary-color: white;
   font-weight: bold;
 }
 
+@keyframes danger {
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: darkviolet;
+  }
+}
+
 * {
   margin: 0px;
   padding: 0px;
@@ -87,7 +96,6 @@ li {
   margin-left: 100px;
 }
 
-
 .menu {
   margin-bottom: 10px;
 }
@@ -131,5 +139,8 @@ li {
 }
 
 .boss {
-  background-color: mediumvioletred;
+  background-color: red;
+  animation-name: danger;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
 }
