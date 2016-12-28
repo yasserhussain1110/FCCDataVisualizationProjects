@@ -1,4 +1,6 @@
 import {get_player_attack, get_player_level_based_on_exp} from '../gameobjects/player';
+import {get_enemy_attack} from '../gameobjects/enemies';
+import {get_boss_attack} from '../gameobjects/boss';
 
 const health_handler = (gameState, healthIndex) => {
   var player = gameState.player;
@@ -49,7 +51,7 @@ const enemy_handler = (gameState, enemyIndex) => {
   var player_health = player.health;
 
   enemy_health -= player_attack;
-  player_health -= enemy.attack;
+  player_health -= get_enemy_attack(enemy);
 
   if (player_health <= 0) {
     return {
@@ -96,7 +98,7 @@ const boss_handler = (gameState) => {
   var player_attack = get_player_attack(player);
 
   boss_health -= player_attack;
-  player_health -= boss.attack;
+  player_health -= get_boss_attack(boss);
 
   if (player.health <= 0) {
     return {

@@ -1,5 +1,5 @@
 import React from 'react';
-import {get_player_attack} from '../gameobjects/player';
+import {get_standard_player_attack} from '../gameobjects/player';
 
 const GameMenu = ({dungeonLevel, player, toggleScreen}) => (
   <div className="menu">
@@ -22,7 +22,7 @@ const GameMenu = ({dungeonLevel, player, toggleScreen}) => (
 
         <li className="attack-menu">
           <span className="label">Attack: </span>
-          <span>{get_player_attack(player)}</span>
+          <span>{get_standard_player_attack(player)}</span>
         </li>
 
         <li className="level-menu">

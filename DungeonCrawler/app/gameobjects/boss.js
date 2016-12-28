@@ -1,4 +1,5 @@
 import {get_random_position_for_game_object, object_position_already_taken} from '../algo/common';
+import {random} from '../algo/common';
 
 export default (dungeon, already_present_game_objects) => {
   while (true) {
@@ -11,4 +12,11 @@ export default (dungeon, already_present_game_objects) => {
       }
     }
   }
+};
+
+export const get_boss_attack = (boss) => {
+  var boss_attack = boss.attack;
+  var upper = Math.floor(0.9 * boss_attack);
+  var lower = Math.floor(1.0 * boss_attack);
+  return random(upper, lower);
 };

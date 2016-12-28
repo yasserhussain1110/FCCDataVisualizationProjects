@@ -1,4 +1,5 @@
 import {get_random_position_for_game_object, object_position_already_taken} from '../algo/common';
+import {random} from '../algo/common';
 
 const get_enemies = (dungeon, dungeon_level, already_present_game_objects, number_of_enemies) => {
   var enemies = [];
@@ -42,5 +43,12 @@ const enemy_level_to_health_attack_map = [{
   health: 2400,
   attack: 125
 }];
+
+export const get_enemy_attack = (enemy) => {
+  var enemy_attack = enemy.attack;
+  var upper = Math.floor(0.9 * enemy_attack);
+  var lower = Math.floor(1.0 * enemy_attack);
+  return random(upper, lower);
+};
 
 export default get_enemies;
