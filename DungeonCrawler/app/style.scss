@@ -14,10 +14,12 @@ $primary-color: white;
   padding: 0px;
 }
 
+body {
+  background-color: black;
+}
+
 .container {
   font-family: $font-stack;
-  background-color: black;
-  height: 650px;
   padding-top: 20px;
 }
 
