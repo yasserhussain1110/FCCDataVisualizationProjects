@@ -41,9 +41,9 @@ const enemy_handler = (gameState, enemyIndex) => {
   var player_attack = get_player_attack(player);
 
   /* TODO :- Cleanup using :-
-    this.setState({ selected: { ...this.state.selected, name: 'barfoo' } })
-    See - http://stackoverflow.com/questions/18933985/this-setstate-isnt-merging-states-as-i-would-expect#comment50704283_18934259
-  */
+   this.setState({ selected: { ...this.state.selected, name: 'barfoo' } })
+   See - http://stackoverflow.com/questions/18933985/this-setstate-isnt-merging-states-as-i-would-expect#comment50704283_18934259
+   */
 
   var enemy_health = enemy.health;
   var player_health = player.health;
@@ -85,12 +85,18 @@ const boss_handler = (gameState) => {
   var player = gameState.player;
   var boss = gameState.boss;
 
+  /* TODO :- Cleanup using :-
+   this.setState({ selected: { ...this.state.selected, name: 'barfoo' } })
+   See - http://stackoverflow.com/questions/18933985/this-setstate-isnt-merging-states-as-i-would-expect#comment50704283_18934259
+   */
+
+  var boss_health = boss.health;
+  var player_health = player.health;
+
   var player_attack = get_player_attack(player);
 
-  boss.health -= player_attack;
-  player.health -= boss.attack;
-  player.experience++;
-  player.level = get_player_level_based_on_exp(player);
+  boss_health -= player_attack;
+  player_health -= boss.attack;
 
   if (player.health <= 0) {
     return {
@@ -100,9 +106,15 @@ const boss_handler = (gameState) => {
 
   if (boss.health <= 0) {
     return {
-      playerWon: true
+      playerWon: true,
+      boss: null
     };
   }
+
+  player.experience++;
+  player.level = get_player_level_based_on_exp(player);
+  player.health = player_health;
+  boss.health = boss_health;
 
   return {
     player,

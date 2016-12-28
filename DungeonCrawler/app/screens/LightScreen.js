@@ -74,14 +74,14 @@ class LightScreen extends Screen {
     for (var i = 0; i < connection_cells.length; i++) {
       var connection_cell = connection_cells[i];
       if (this.doesSingleTileObjectLieOnScreen(connection_cell)) {
-        this.projectSingleTileObjectLieOnScreen(connection_cell, "room");
+        this.projectSingleTileObjectOnScreen(connection_cell, "room");
       }
     }
   }
 
   placePlayer(player) {
     if (this.doesSingleTileObjectLieOnScreen(player)) {
-      this.projectSingleTileObjectLieOnScreen(player, "player");
+      this.projectSingleTileObjectOnScreen(player, "player");
     }
   }
 
@@ -89,7 +89,7 @@ class LightScreen extends Screen {
     for (var i = 0; i < enemies.length; i++) {
       var enemy = enemies[i];
       if (this.doesSingleTileObjectLieOnScreen(enemy)) {
-        this.projectSingleTileObjectLieOnScreen(enemy, "enemy");
+        this.projectSingleTileObjectOnScreen(enemy, "enemy");
       }
     }
   }
@@ -98,7 +98,7 @@ class LightScreen extends Screen {
     for (var i = 0; i < weapons.length; i++) {
       var weapon = weapons[i];
       if (this.doesSingleTileObjectLieOnScreen(weapon)) {
-        this.projectSingleTileObjectLieOnScreen(weapon, "weapon");
+        this.projectSingleTileObjectOnScreen(weapon, "weapon");
       }
     }
   }
@@ -107,20 +107,20 @@ class LightScreen extends Screen {
     for (var i = 0; i < healths.length; i++) {
       var health = healths[i];
       if (this.doesSingleTileObjectLieOnScreen(health)) {
-        this.projectSingleTileObjectLieOnScreen(health, "health");
+        this.projectSingleTileObjectOnScreen(health, "health");
       }
     }
   }
 
   placeBoss(boss) {
     if (this.doesSingleTileObjectLieOnScreen(boss)) {
-      this.projectSingleTileObjectLieOnScreen(boss, "boss");
+      this.projectSingleTileObjectOnScreen(boss, "boss");
     }
   }
 
   placeTransporter(transporter) {
     if (this.doesSingleTileObjectLieOnScreen(transporter)) {
-      this.projectSingleTileObjectLieOnScreen(transporter, "transporter");
+      this.projectSingleTileObjectOnScreen(transporter, "transporter");
     }
   }
 
@@ -129,7 +129,7 @@ class LightScreen extends Screen {
     return row >= this.startRow && row <= this.endRow;
   }
 
-  projectSingleTileObjectLieOnScreen(object, tileClass) {
+  projectSingleTileObjectOnScreen(object, tileClass) {
     var row = object.row || object.position.row;
     var col = object.col || object.position.col;
     var index = convert_to_1d_index(row - this.startRow, col, this.totalNumberOfCols);
