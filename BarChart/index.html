@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FCC Bar Chart with D3.js</title>
+  <style>
+    /* SVG Style */
+    .bar {
+      fill: steelblue;
+    }
+
+    .axis text {
+      font: 10px sans-serif;
+    }
+
+    .axis path,
+    .axis line {
+      fill: none;
+      stroke: #000;
+      shape-rendering: crispEdges;
+    }
+
+    .mouseover {
+      fill: lightsteelblue;
+    }
+
+    /* HTML Style */
+
+    .tooltip {
+      position: absolute;
+      background-color: lightsteelblue;
+      height: 40px;
+      width: 150px;
+      display: none;
+      border-radius: 5px;
+      padding: 5px;
+    }
+
+    .header {
+      text-align: center;
+      color: steelblue;
+      font-size: 2.5em;
+      font-family: sans-serif
+    }
+
+    .notes {
+      width: 960px;
+      text-align: center;
+      color: steelblue;
+      font-size: 0.8em;
+      font-family: sans-serif
+    }
+
+  </style>
+</head>
+<body>
+<div class="header">Gross Domestic Product</div>
+<svg class="chart"></svg>
+<div class="notes">Units: Billions of Dollars Seasonal Adjustment: Seasonally Adjusted Annual Rate Notes: A Guide to the
+  National Income and Product Accounts of the United States (NIPA) - (http://www.bea.gov/national/pdf/nipaguid.pdf)
+</div>
+<div class="tooltip"><b>Header</b><br><span>Val</span></div>
+<script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+<script type="text/javascript">
+  var formatCurrency = d3.format("$,.2f");
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+
+  d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/GDP-data.json", function (res) {
+    var data = res.data;
+
+    var totalWidth = 1000;
+    var totalHeight = 500;
+
+    var margin = {top: 20, right: 30, bottom: 30, left: 40},
+        actualWidth = totalWidth - margin.left - margin.right,
+        actualHeight = totalHeight - margin.top - margin.bottom;
+
+    var minDate = new Date(data[0][0]);
+    var maxDate = new Date(data[data.length - 1][0]);
+
+    var barWidth = Math.ceil(actualWidth / data.length);
+
+
+    var x = d3.time.scale()
+        .domain([minDate, maxDate])
+        .range([0, actualWidth]);
+
+    var y = d3.scale.linear()
+        .range([actualHeight, 0])
+        .domain([0, d3.max(data, function (v) {
+          return v[1];
+        })]);
+
+    var chart = d3.select(".chart")
+        .attr("width", totalWidth)
+        .attr("height", totalHeight)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    chart.selectAll("g").data(data)
+        .enter().append("g")
+        .attr("transform", function (d, i) {
+          return "translate(" + x(new Date(d[0])) + ",0)";
+        })
+        .append("rect")
+        .attr("class", "bar")
+        .attr("width", barWidth)
+        .attr("height", function (v) {
+          return actualHeight - y(v[1]);
+        })
+        .attr("y", function (v) {
+          return y(v[1]);
+        })
+        .on("mouseover", function (d) {
+          var currentDateTime = new Date(d[0]);
+          var rect = d3.select(this);
+          rect.attr("class", "mouseover");
+
+          d3.select(".tooltip b")
+              .html(formatCurrency(d[1]) + " Billion");
+
+          d3.select(".tooltip span")
+              .html(currentDateTime.getFullYear() + " - " + months[+currentDateTime.getMonth()]);
+
+          d3.select(".tooltip")
+              .style("display", "initial")
+              .style("top", d3.event.pageY + "px")
+              .style("left", d3.event.pageX + "px");
+        })
+        .on("mouseout", function (d) {
+          var rect = d3.select(this);
+          rect.attr("class", "bar");
+          d3.select(".tooltip")
+              .style("display", "none");
+        });
+
+    var xAxis = d3.svg.axis()
+        .scale(x)
+        .orient("bottom")
+        .ticks(d3.time.years, 5);
+
+    chart.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + actualHeight + ")")
+        .call(xAxis);
+
+    var yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left");
+
+    chart.append("g")
+        .attr("class", "y axis")
+        .call(yAxis)
+        .append("text")
+        .attr("y", 6)
+        .attr("dy", ".71em")
+        .attr("transform", "rotate(-90)")
+        .style("text-anchor", "end")
+        .text("Gross Domestic Product, USA");
+
+  });
+</script>
+</body>
+</html>
