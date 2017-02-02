@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<html>
+<head>
+
+<style>
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+}
+
+.title {
+  font-size: 2em;
+}
+
+.tooltip {
+  margin: 0 auto;
+  position: absolute;
+  width: 200px;
+  pointer-events: pointer;
+  width: 150px;
+  line-height: 1.2;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  font-size: 1.2em;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+
+function createToolTip(d) {
+  var tooltipHTML = "<span class = 'name'>" + d.Name + ": " + d.Nationality + "</span>";
+  tooltipHTML += "<br/>Year: " + d.Year + ", Time: " + padNumber(d.Seconds) + "<br/>";
+  if (d.doping !== "") {
+    tooltipHTML += "<br/>" + d.Doping;
+  } else {
+    tooltipHTML += "<br/>No Doping Allegation";
+  }
+  return tooltipHTML;
+}
+
+padNumber = n => n < 10 ? "0" + n : "" + n
+
+formatTime = data => {
+  var min = data/60 | 0;
+  var sec = data - min * 60;
+  return padNumber(min) + ":" + padNumber(sec)
+}
+
+var tooltip = d3.select("body").append("div")
+  .attr("class", "tooltip")
+  .style("opacity", 0);
+
+var margin = {top: 20, right: 20, bottom: 30, left: 40},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var x = d3.scale.linear()
+    .range([width, 0]);
+
+var y = d3.scale.linear()
+    .range([0, height]);
+
+var color = d3.scale.category10();
+
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient("bottom")
+    .tickFormat(formatTime);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left");
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+d3.json("https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/cyclist-data.json", function(error, data) {
+  if (error) throw error;
+
+  x.domain(d3.extent(data, function(d) { return d.Seconds; })).nice();
+  y.domain(d3.extent(data, function(d) { return d.Place; })).nice();
+
+  svg.append("text")
+    .attr("x", (width / 2))
+    .attr("y", margin.top/3)
+    .attr("text-anchor", "middle")
+    .attr("class", "title")
+    .text("Doping in Professional Bicycle Racing");
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Minutes Taken to Complete Race");
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      .text("Ranking")
+
+  svg.selectAll(".dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", 3.5)
+      .attr("cx", function(d) { return x(d.Seconds); })
+      .attr("cy", function(d) { return y(d.Place); })
+      .style("fill", function(d) { return color(d.Doping === "" ? "No doping allegations" : "Riders with doping allegations"); })
+      .on("mouseover", function(d) {
+        tooltip.transition()
+          .duration(200)
+          .style("opacity", .9)
+          
+
+        tooltip.html(createToolTip(d))
+          .style("left", ( width/2) + "px")
+          .style("top", (280) + "px");;
+      })
+      .on("mouseout", function(d) {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
+
+  var legend = svg.selectAll(".legend")
+      .data(color.domain())
+    .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("y", 200)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 205)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d; });
+
+});
+
+</script>
+</body>
