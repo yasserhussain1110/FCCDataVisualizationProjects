@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<meta charset="utf-8"></meta>
+<title>HeatMap</title>
+<style>
+
+  body {
+    text-align: center;
+  }
+
+  .x-axis {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+    font-size: 0.7em;
+  }
+
+  .y-axis text {
+    shape-rendering: crispEdges;
+    fill: black;
+    font-size: 0.7em
+  }
+
+  .y-axis .domain {
+    stroke: none;
+    fill: none;
+  }
+
+  .header {
+    font-weight: bold;
+  }
+
+  .tooltip {
+    opacity: 0;
+    position: absolute;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    text-align: center;
+    font: 1em sans-serif;
+  }
+
+  .tooltip > * {
+    padding: 2px 5px;
+  }
+
+  .tooltip > .yearMonth {
+    font-size: 0.9em;
+    font-weight: bold;
+  }
+
+  .tooltip > .temperature {
+    font-size: 0.8em;
+    font-weight: bold;
+  }
+
+  .tooltip > .variance {
+    font-size: 0.75em;
+    font-weight: bold;
+  }
+
+</style>
+
+<body>
+
+<div class="tooltip">
+  <div class="yearMonth"></div>
+  <div class="temperature"></div>
+  <div class="variance"></div>
+</div>
+
+<h1>
+  Monthly Global Land-Surface Temperature
+  1753 - 2015
+</h1>
+
+<p>
+  Temperatures are in Celsius and reported as anomalies relative to the Jan 1951-Dec 1980 average.
+</p>
+
+<p>
+  Estimated Jan 1951-Dec 1980 absolute temperature ℃: 8.66 +/- 0.07
+</p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<script>
+
+  let monthNames = ["January", "February", "March", "April", "May", "June", "July", "August",
+    "September", "October", "November", "December"];
+
+  let colors = ["#5e4fa2", "#3288bd", "#66c2a5", "#abdda4", "#e6f598", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d53e4f", "#9e0142"];
+
+  let margin = {
+    top: 10,
+    right: 40,
+    bottom: 150,
+    left: 75
+  };
+
+  let chartWidth = 1050;
+  let chartHeight = 450;
+
+  let widthSVG = chartWidth + margin.left + margin.right;
+  let heightSVG = chartHeight + margin.top + margin.bottom;
+
+  let svg = d3.select("body").append("svg")
+      .attr("width", widthSVG)
+      .attr("height", heightSVG);
+
+  let chart = svg.append("g")
+      .attr("width", chartWidth)
+      .attr("height", chartHeight)
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  let y = d3.scale.ordinal()
+      .rangeBands([0, chartHeight]);
+
+  let x = d3.scale.linear()
+      .range([0, chartWidth]);
+
+  let colorScale = d3.scale.quantile().range(colors);
+
+  let tooltip = d3.select('.tooltip');
+
+  d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/global-temperature.json', function (err, resp) {
+    if (err) throw err;
+
+    let baseTemperature = resp.baseTemperature;
+    let data = resp.monthlyVariance;
+
+    let variances = data.map(d=>d.variance);
+    let months = data.map(d=>d.month);
+    let years = data.map(d=>d.year);
+
+    x.domain([d3.min(years), d3.max(years)]);
+
+    let uniqueMonths = uniqueSort(months);
+    y.domain(uniqueMonths);
+
+    colorScale
+        .domain([d3.min(variances), d3.max(variances)]);
+
+    let xAxis = d3.svg.axis()
+        .scale(x)
+        .ticks(20)
+        .orient("bottom")
+        .tickFormat(d3.format("d"));
+
+    let yAxis = d3.svg.axis()
+        .scale(y)
+        .orient("left")
+        .tickFormat(t=>monthNames[t - 1]);
+
+    chart.selectAll('.box').data(data)
+        .enter()
+        .append('rect')
+        .attr("class", "box")
+        .attr("width", "20px")
+        .attr("height", "40px")
+        .attr("y", function (d, i) {
+          return y(d.month);
+        })
+        .attr("x", function (d, i) {
+          return x(d.year);
+        })
+        .attr("fill", function (d, i) {
+          return colorScale(d.variance);
+        })
+        .on('mouseover', function (d) {
+          tooltip.select(".yearMonth").html(d.year + " - " + monthNames[d.month - 1]);
+          tooltip.select(".temperature").html(threeDecimalPlaces(baseTemperature + d.variance)
+              + " &deg;C");
+          tooltip.select(".variance").html(d.variance + " &deg;C");
+          tooltip.style("top", (d3.event.pageY - 75) + "px");
+          tooltip.style("left", (d3.event.pageX - 70) + "px");
+          tooltip.style("opacity", 0.8);
+          tooltip.style("z-index", 1);
+        })
+        .on('mouseout', function () {
+          tooltip.style("opacity", 0);
+          tooltip.style("z-index", -1);
+        });
+
+    svg.append("g")
+        .attr("class", "axis x-axis")
+        .attr("transform", "translate(" + margin.left + "," + (chartHeight + 15) + ")")
+        .call(xAxis);
+
+    svg.append("g")
+        .attr("class", "axis y-axis")
+        .attr("transform", "translate(" + (margin.left) + "," + margin.top + ")")
+        .call(yAxis);
+
+    let legend = svg.selectAll(".legend")
+        .data([0].concat(colorScale.quantiles()), function (d) {
+          return d;
+        });
+
+    legend.enter().append("g")
+        .attr("class", "legend");
+
+    legend.append("rect")
+        .attr("x", function (d, i) {
+          return 80 + 40 * i;
+        })
+        .attr("y", heightSVG - 70)
+        .attr("width", 40)
+        .attr("height", 40)
+        .style("fill", function (d, i) {
+          return colors[i];
+        });
+
+    legend.append("text")
+        .attr("class", "scales")
+        .text(function (d) {
+          return (Math.floor(d * 10) / 10);
+        })
+        .attr("x", function (d, i) {
+          return 90 + 40 * i;
+        })
+        .attr("y", heightSVG - 10);
+
+    svg.append("text")
+        .attr("x", 600)
+        .attr("y", heightSVG - 90)
+        .attr("class", "header x-header")
+        .text("Years");
+
+    svg.append("text")
+        .attr("x", -250)
+        .attr("y", 15)
+        .text("Months")
+        .attr("class", "header y-header")
+        .attr("transform", "rotate(-90)");
+  });
+
+  threeDecimalPlaces = (num) => ((num * 1000 | 0) / 1000);
+
+  uniqueSort = (nums) => {
+    var dict = {};
+    nums.forEach(function (n) {
+      dict[n] = 1;
+    });
+
+    return Object.keys(dict).map(n=>+n).sort((a, b)=>a - b);
+  }
+
+</script>
+
+</body>
+</html>
