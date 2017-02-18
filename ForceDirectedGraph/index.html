@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<meta charset="utf-8"></meta>
+<title>Force Directed Graph</title>
+<link rel="stylesheet" type="text/css"
+      href="https://www.cs.mun.ca/~h65ped/Public/country%20data%20for%20force%20directed%20graph/flags.css"/>
+<style>
+
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: blue;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 30px 10px;
+  }
+
+  .container {
+    position: relative;
+    background-color: black;
+    width: 1200px;
+    margin: auto;
+  }
+
+  .flag-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .flag {
+    position: absolute;
+  }
+
+  .link {
+    stroke: #777;
+    stroke-width: 2px;
+  }
+
+  .tooltip {
+    position: absolute;
+    z-index: -1;
+    background-color: gray;
+    display: none;
+    color: black;
+    padding: 10px;
+    border-radius: 2px;
+    font-size: 1.2em;
+    opacity: 0.8;
+  }
+
+</style>
+
+<body>
+
+<h1> Force Directed Graph of State Contiguity </h1>
+<div class="container">
+  <svg></svg>
+  <div class="flag-container"></div>
+  <div class="tooltip"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.16/d3.min.js"></script>
+<script>
+
+  var width = 1000;
+  var height = 800;
+
+  var svg = d3.select('svg')
+      .attr("width", width)
+      .attr("height", height);
+
+  var nodes = null, links = null;
+
+  d3.json('https://www.cs.mun.ca/~h65ped/Public/country%20data%20for%20force%20directed%20graph/countries.json', function (data) {
+    nodes = data.nodes;
+    links = data.links;
+
+    onDataLoaded();
+  });
+
+  function onDataLoaded() {
+
+    var forceCharge = -100;
+    var linkDistance = 50;
+
+    var tooltip = d3.select('.tooltip');
+
+    var force = d3.layout.force()
+        .size([width, height])
+        .nodes(nodes)
+        .links(links)
+        .linkDistance(linkDistance)
+        .charge(forceCharge);
+
+    var node = d3.select('.flag-container')
+        .selectAll('img')
+        .data(nodes)
+        .enter()
+        .append('img')
+        .attr('class', function (d) {
+          return "flag flag-" + d.code;
+        })
+        .on('mouseover', function (d) {
+          tooltip.style('top', (d3.event.pageY - 140) + "px");
+          tooltip.style('left', (d3.event.pageX - 20) + "px");
+          tooltip.style('display', 'initial');
+          tooltip.style('z-index', 1);
+          tooltip.html(d.country);
+        })
+        .on('mouseout', function () {
+          tooltip.style('display', 'none');
+          tooltip.style('z-index', 0);
+        })
+        .call(force.drag);
+
+    var link = svg.selectAll('.link')
+        .data(links)
+        .enter()
+        .append('line')
+        .attr('class', 'link');
+
+    force.on('tick', function () {
+
+      link.attr('x1', function (d) {
+        return d.source.x;
+      });
+
+      link.attr('y1', function (d) {
+        return d.source.y;
+      });
+
+      link.attr('x2', function (d) {
+        return d.target.x;
+      });
+
+      link.attr('y2', function (d) {
+        return d.target.y;
+      });
+
+      node.style('top', function (d) {
+        return (d.y - 5) + "px";
+      });
+
+      node.style('left', function (d) {
+        return (d.x - 5) + "px";
+      });
+
+    });
+
+    force.start();
+  }
+
+
+</script>
+
+</body>
+</html>
