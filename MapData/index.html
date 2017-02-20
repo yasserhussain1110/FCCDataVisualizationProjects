@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Map Data Across the Globe</title>
+  <style>
+    path {
+      stroke: black;
+      stroke-width: 0.5px;
+      fill: #095816;
+    }
+
+    circle {
+      opacity: 0.3;
+      fill: black;
+
+    }
+
+    .tooltip {
+      font-family: "Times New Roman", Georgia, Serif;
+      position: absolute;
+      display: none;
+      opacity: 0.8;
+      background: hsla(90, 40%, 55%, .8);
+      color: black;
+      pointer-events: none;
+      box-shadow: 0 5px 10px hsla(0, 0%, 0%, .2);
+      padding: 20px;
+      z-index: -1;
+      border-radius: 5px;
+    }
+
+    .tooltip > div {
+      padding: 4px 0px;
+    }
+  </style>
+  <script src="http://d3js.org/d3.v3.min.js"></script>
+  <script src="http://d3js.org/topojson.v0.min.js"></script>
+</head>
+<body>
+<div class="tooltip">
+  <div> fall: <span class="fall"></span></div>
+  <div> mass: <span class="mass"></span></div>
+  <div> name: <span class="name"></span></div>
+  <div> nametype: <span class="nametype"></span></div>
+  <div> recclass: <span class="recclass"></span></div>
+  <div> reclat: <span class="reclat"></span></div>
+  <div> year: <span class="year"></span></div>
+</div>
+<script type="text/javascript">
+  var width = 1000;
+  var height = 720;
+
+  var projection = d3.geo.mercator();
+
+  var svg = d3.select("body").append("svg")
+      .attr("width", width)
+      .attr("height", height);
+
+  svg.append("rect")
+      .attr("width", "100%")
+      .attr("height", "100%")
+      .attr("fill", "#048ABF");
+
+
+  var path = d3.geo.path()
+      .projection(projection);
+  var g = svg.append("g");
+
+  var tooltip = d3.select('.tooltip');
+
+  d3.json("https://raw.githubusercontent.com/guardian/interactive-tsunami-10-years/master/world-110m2.json", function (error, topology) {
+    g.selectAll("path")
+        .data(topojson.object(topology, topology.objects.countries)
+            .geometries)
+        .enter()
+        .append("path")
+        .attr("d", path)
+  });
+
+
+  d3.json('https://raw.githubusercontent.com/FreeCodeCamp/ProjectReferenceData/master/meteorite-strike-data.json', function (json) {
+    var meteorites = svg.append('g')
+        .selectAll('path')
+        .data(json.features)
+        .enter()
+        .append('circle')
+        .attr('cx', function (d) {
+          return projection([d.properties.reclong, d.properties.reclat])[0]
+        })
+        .attr('cy', function (d) {
+          return projection([d.properties.reclong, d.properties.reclat])[1]
+        })
+        .attr('r', function (d) {
+          var range = 1000000 / 2 / 2;
+          if (d.properties.mass <= range) return 2;
+          else if (d.properties.mass <= range * 2) return 10;
+          else if (d.properties.mass <= range * 3) return 20;
+          else if (d.properties.mass <= range * 20) return 30;
+          else if (d.properties.mass <= range * 100) return 40;
+          return 50;
+        })
+        .on('mouseover', function (d) {
+          var properties = d.properties;
+
+          tooltip.style('opacity', 1);
+          tooltip.style('display', 'initial');
+          tooltip.style('left', (d3.event.pageX + 20) + 'px');
+          tooltip.style('top', (d3.event.pageY - 20) + 'px');
+          tooltip.style('z-index', 1);
+
+          tooltip.select('.fall').html(properties.fall);
+          tooltip.select('.mass').html(properties.mass);
+          tooltip.select('.name').html(properties.name);
+          tooltip.select('.nametype').html(properties.nametype);
+          tooltip.select('.reclass').html(properties.recclass);
+          tooltip.select('.reclat').html(properties.reclat);
+          tooltip.select('.year').html(properties.year);
+        })
+        .on('mouseout', function (d) {
+          tooltip.style('display', 'none');
+          tooltip.style('z-index', -1);
+        })
+  });
+</script>
+</body>
+</html>
