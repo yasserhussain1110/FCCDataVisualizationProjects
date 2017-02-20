@@ -4,6 +4,21 @@
   <meta charset="utf-8">
   <title>Map Data Across the Globe</title>
   <style>
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px auto;
+    }
+
+    svg {
+      margin: auto;
+      display: block;
+    }
+
     path {
       stroke: black;
       stroke-width: 0.5px;
@@ -13,7 +28,6 @@
     circle {
       opacity: 0.3;
       fill: black;
-
     }
 
     .tooltip {
@@ -39,14 +53,17 @@
 </head>
 <body>
 <div class="tooltip">
-  <div> <strong>fall:</strong> <span class="fall"></span></div>
-  <div> <strong>mass:</strong> <span class="mass"></span></div>
-  <div> <strong>name:</strong> <span class="name"></span></div>
-  <div> <strong>nametype:</strong> <span class="nametype"></span></div>
-  <div> <strong>recclass:</strong> <span class="recclass"></span></div>
-  <div> <strong>reclat:</strong> <span class="reclat"></span></div>
-  <div> <strong>year:</strong> <span class="year"></span></div>
+  <div><strong>fall:</strong> <span class="fall"></span></div>
+  <div><strong>mass:</strong> <span class="mass"></span></div>
+  <div><strong>name:</strong> <span class="name"></span></div>
+  <div><strong>nametype:</strong> <span class="nametype"></span></div>
+  <div><strong>recclass:</strong> <span class="recclass"></span></div>
+  <div><strong>reclat:</strong> <span class="reclat"></span></div>
+  <div><strong>year:</strong> <span class="year"></span></div>
 </div>
+
+<h1> Map of Meteorite Strikes on Earth </h1>
+
 <script type="text/javascript">
   var width = 1000;
   var height = 720;
