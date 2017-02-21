@@ -22,7 +22,7 @@
   .container {
     position: relative;
     background-color: black;
-    width: 1200px;
+    width: 1000px;
     margin: auto;
   }
 
@@ -106,8 +106,8 @@
           return "flag flag-" + d.code;
         })
         .on('mouseover', function (d) {
-          tooltip.style('top', (d3.event.pageY - 140) + "px");
-          tooltip.style('left', (d3.event.pageX - 20) + "px");
+          tooltip.style('top', (d3.event.pageY - 150) + "px");
+          tooltip.style('left', (d3.event.pageX - 120) + "px");
           tooltip.style('display', 'initial');
           tooltip.style('z-index', 1);
           tooltip.html(d.country);
